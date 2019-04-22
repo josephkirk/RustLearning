@@ -14,11 +14,8 @@ fn main() {
     println!("Guess the Animal Game !");
     println!("Animal list: {:?}", animal_names);
     let secret_animal = pick_random(&animal_names);
-    let split_chars = secret_animal.chars();
-    let random_char = pick_random(&split_chars);
 
     println!("Pick {} as secret animal", secret_animal);
-    println!("Random Char: {}", random_char)
     println!("Type-in your guess:");
 
     let mut guess = String::new();
