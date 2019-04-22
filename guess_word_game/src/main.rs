@@ -1,10 +1,6 @@
 use std::io;
 use rand::Rng;
 
-fn pick_random(slice: &[&str]) -> String {
-    let rand_num = rand::thread_rng().gen_range(0, slice.len()-1);
-    slice[rand_num].to_string()
-}
 
 fn main() {
     let animal_names = [
@@ -24,4 +20,9 @@ fn main() {
         .expect("Failed to read input!");
     
     println!("You guess {}", guess);
+}
+
+fn pick_random<'a>(slice: &'a [&str]) -> &'a str {
+    let rand_num = rand::thread_rng().gen_range(0, slice.len()-1);
+    slice[rand_num]
 }
