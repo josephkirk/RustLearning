@@ -1,0 +1,2272 @@
+[
+    {
+        "name": "Aardvark",
+        "type": "Mammalia",
+        "features": "Long, sticky tongue and rabbit-like ears"
+    },
+    {
+        "name": "Adelie Penguin",
+        "type": "Aves",
+        "features": "Small white circle around each eye"
+    },
+    {
+        "name": "African Bush Elephant",
+        "type": "Mammalia",
+        "features": "Large, rounded ears"
+    },
+    {
+        "name": "African Civet",
+        "type": "Mammalia",
+        "features": "Black band around their eyes"
+    },
+    {
+        "name": "African Clawed Frog",
+        "type": "Amphibia",
+        "features": "Clawed front toes"
+    },
+    {
+        "name": "African Forest Elephant",
+        "type": "Mammalia",
+        "features": "Rounded ears and thin, straight tusks"
+    },
+    {
+        "name": "African Palm Civet",
+        "type": "Mammalia",
+        "features": "Snout with sharp, pointed teeth"
+    },
+    {
+        "name": "African Penguin",
+        "type": "Aves",
+        "features": "Pink glands above their eyes"
+    },
+    {
+        "name": "African Tree Toad",
+        "type": "Amphibia",
+        "features": "Small body size and webbed feet"
+    },
+    {
+        "name": "African Wild Dog",
+        "type": "Mammalia",
+        "features": "Four toes on each foot rather than five"
+    },
+    {
+        "name": "Albatross",
+        "type": "Aves",
+        "features": "Long, hook-tipped beak"
+    },
+    {
+        "name": "Aldabra Giant Tortoise",
+        "type": "Reptilia",
+        "features": "Large, high-domed shell"
+    },
+    {
+        "name": "Alligator",
+        "type": "Reptilia",
+        "features": "Muscular tail half the total body length"
+    },
+    {
+        "name": "Angelfish",
+        "type": "Actinopterygii",
+        "features": "Body shape and brightly coloured markings"
+    },
+    {
+        "name": "Ant",
+        "type": "Insecta",
+        "features": "Social insects and pincers near the mouth"
+    },
+    {
+        "name": "Anteater",
+        "type": "Mammalia",
+        "features": "Elongated snout and long sticky tongue"
+    },
+    {
+        "name": "Antelope",
+        "type": "Mammalia",
+        "features": "Long legs and curved antlers"
+    },
+    {
+        "name": "Arctic Fox",
+        "type": "Mammalia",
+        "features": "Thick fur that changes colour with season"
+    },
+    {
+        "name": "Arctic Hare",
+        "type": "Mammalia",
+        "features": "Thick fur that changes colour with seasons"
+    },
+    {
+        "name": "Arctic Wolf",
+        "type": "Mammalia",
+        "features": "Thick, warm fur and loud howling noise"
+    },
+    {
+        "name": "Armadillo",
+        "type": "Mammalia",
+        "features": "Armoured plated skin and can curl into a ball"
+    },
+    {
+        "name": "Asian Elephant",
+        "type": "Mammalia",
+        "features": "Long trunk and large feet"
+    },
+    {
+        "name": "Asian Giant Hornet",
+        "type": "Insecta",
+        "features": "Wide black and orange body and large mandibles"
+    },
+    {
+        "name": "Asian Palm Civet",
+        "type": "Mammalia",
+        "features": "Elongated body and snout with sharp, pointed teeth"
+    },
+    {
+        "name": "Asiatic Black Bear",
+        "type": "Mammalia",
+        "features": "Distinctive v-shaped marking on chest"
+    },
+    {
+        "name": "Avocet",
+        "type": "Aves",
+        "features": "Long curved beak and striking plumage"
+    },
+    {
+        "name": "Axolotl",
+        "type": "Amphibia",
+        "features": "Feathery gills and flattened-shaped head"
+    },
+    {
+        "name": "Aye Aye ",
+        "type": "Mammalia",
+        "features": "Elongated middle finger with hooked claw"
+    },
+    {
+        "name": "Baboon",
+        "type": "Mammalia",
+        "features": "Dog-like muzzle and long, bent tail"
+    },
+    {
+        "name": "Bactrian Camel",
+        "type": "Mammalia",
+        "features": "Thick fur and two humps"
+    },
+    {
+        "name": "Badger",
+        "type": "Mammalia",
+        "features": "Flattened body and long claws"
+    },
+    {
+        "name": "Banded Palm Civet",
+        "type": "Mammalia",
+        "features": "Elongated body and snout with sharp, pointed teeth"
+    },
+    {
+        "name": "Bandicoot",
+        "type": "Mammalia",
+        "features": "Pointed snout and long, thin tail"
+    },
+    {
+        "name": "Barb",
+        "type": "Actinopterygii",
+        "features": "Easily adaptable and rows of teeth"
+    },
+    {
+        "name": "Barn Owl",
+        "type": "Aves",
+        "features": "White heart-shaped face and large, dark eyes"
+    },
+    {
+        "name": "Barnacle",
+        "type": "Crustacea",
+        "features": "Latch on to hard surfaces and shell made up from plates"
+    },
+    {
+        "name": "Barracuda",
+        "type": "Actinopterygii",
+        "features": "Large body size and powerful jaws"
+    },
+    {
+        "name": "Basking Shark",
+        "type": "Chondrichthyes",
+        "features": "Enormous mouth and large body size"
+    },
+    {
+        "name": "Bat",
+        "type": "Mammalia",
+        "features": "Large ears detect prey using echolocation and have strong, flexible wings"
+    },
+    {
+        "name": "Bear",
+        "type": "Mammalia",
+        "features": "Large teeth and paws and strong body"
+    },
+    {
+        "name": "Bearded Dragon",
+        "type": "Reptilia",
+        "features": "Pronounced beard when scared and morphs skin colour"
+    },
+    {
+        "name": "Beaver",
+        "type": "Mammalia",
+        "features": "Transparent eyelids and big, flat tail"
+    },
+    {
+        "name": "Beetle",
+        "type": "Insecta",
+        "features": "Hard outer shell and two pairs of wings"
+    },
+    {
+        "name": "Bengal Tiger",
+        "type": "Mammalia",
+        "features": "Striped fur and large body size"
+    },
+    {
+        "name": "Binturong",
+        "type": "Mammalia",
+        "features": "Long prehensile tail and sharp claws"
+    },
+    {
+        "name": "Bird",
+        "type": "Aves",
+        "features": "Light, feathered body and beak"
+    },
+    {
+        "name": "Birds Of Paradise",
+        "type": "Aves",
+        "features": "Brightly coloured feathers and elaborate dance of males"
+    },
+    {
+        "name": "Bison",
+        "type": "Mammalia",
+        "features": "Huge head and a shoulder hump"
+    },
+    {
+        "name": "Black Bear",
+        "type": "Mammalia",
+        "features": "Thick fur and long, pointed snout"
+    },
+    {
+        "name": "Black Rhinoceros",
+        "type": "Mammalia",
+        "features": "Hard, thick skin and two large horns"
+    },
+    {
+        "name": "Black Widow Spider",
+        "type": "Arachnida",
+        "features": "Sharp fangs and shiny black and red body"
+    },
+    {
+        "name": "Blue Whale",
+        "type": "Mammalia",
+        "features": "Pleats on neck and two blow-holes"
+    },
+    {
+        "name": "Bobcat",
+        "type": "Mammalia",
+        "features": "Short ear tufts and bobbed tail"
+    },
+    {
+        "name": "Bongo",
+        "type": "Mammalia",
+        "features": "10 - 15 white stripes on body"
+    },
+    {
+        "name": "Bonobo",
+        "type": "Mammalia",
+        "features": "Large body size and opposable thumbs"
+    },
+    {
+        "name": "Booby",
+        "type": "Aves",
+        "features": "Large body size and brightly coloured feet"
+    },
+    {
+        "name": "Bornean Orang-utan",
+        "type": "Mammalia",
+        "features": "Highly intelligent with very long arms"
+    },
+    {
+        "name": "Borneo Elephant",
+        "type": "Mammalia",
+        "features": "Long trunk and large feet"
+    },
+    {
+        "name": "Bottle Nosed Dolphin",
+        "type": "Mammalia",
+        "features": "Large dorsal fins and communicate using whistling"
+    },
+    {
+        "name": "Brown Bear",
+        "type": "Mammalia",
+        "features": "Powerful forearms and hibernate in the winter"
+    },
+    {
+        "name": "Budgerigar",
+        "type": "Aves",
+        "features": "Brightly coloured feathers and warble communication calls"
+    },
+    {
+        "name": "Buffalo",
+        "type": "Mammalia",
+        "features": "Shoulder hump and large, curved horns"
+    },
+    {
+        "name": "Bull Shark",
+        "type": "Chondrichthyes",
+        "features": "Flat, rounded snout and two dorsal fins"
+    },
+    {
+        "name": "Bullfrog",
+        "type": "Amphibia",
+        "features": "Powerful legs and cow-like call"
+    },
+    {
+        "name": "Bumble Bee",
+        "type": "Insecta",
+        "features": "Black and yellow body and sting on tail of the female"
+    },
+    {
+        "name": "Burrowing Frog",
+        "type": "Amphibia",
+        "features": "Long limbs and rough, bumpy skin"
+    },
+    {
+        "name": "Butterfly",
+        "type": "Insecta",
+        "features": "Long, curled tongue and brightly coloured wings"
+    },
+    {
+        "name": "Butterfly Fish",
+        "type": "Actinopterygii",
+        "features": "Elongated nose and bright colours"
+    },
+    {
+        "name": "Caiman",
+        "type": "Reptilia",
+        "features": "Eyes and nostrils located on top of the head and snout"
+    },
+    {
+        "name": "Caiman Lizard",
+        "type": "Reptilia",
+        "features": "Forked tongue and powerful tail"
+    },
+    {
+        "name": "Camel",
+        "type": "Mammalia",
+        "features": "Long, curved neck and large hump"
+    },
+    {
+        "name": "Capybara",
+        "type": "Mammalia",
+        "features": "Eyes, ears and nostrils on top of the head!"
+    },
+    {
+        "name": "Caracal",
+        "type": "Mammalia",
+        "features": "Long, black ear tufts and short fur"
+    },
+    {
+        "name": "Cassowary",
+        "type": "Aves",
+        "features": "Sharp claws and horn-like crest"
+    },
+    {
+        "name": "Cat",
+        "type": "Mammalia",
+        "features": ""
+    },
+    {
+        "name": "Caterpillar",
+        "type": "Insecta",
+        "features": "Long body shape and fleshy horns"
+    },
+    {
+        "name": "Catfish",
+        "type": "Osteichthyes",
+        "features": "Flat, broad head and whiskers"
+    },
+    {
+        "name": "Centipede",
+        "type": "Myriapoda",
+        "features": "Long body shape and venomous fangs"
+    },
+    {
+        "name": "Chameleon",
+        "type": "Reptilia",
+        "features": "Exceptional vision and ability to change skin colour"
+    },
+    {
+        "name": "Chamois",
+        "type": "Mammalia",
+        "features": "Black and white face markings and backward curving horns"
+    },
+    {
+        "name": "Cheetah",
+        "type": "Mammalia",
+        "features": "Yellowish fur covered in small black spots"
+    },
+    {
+        "name": "Chicken",
+        "type": "Aves",
+        "features": "Sharp, pointed beak and clucking sounds"
+    },
+    {
+        "name": "Chimpanzee",
+        "type": "Mammalia",
+        "features": "Dexterous hands and feet and complex communication"
+    },
+    {
+        "name": "Chinchilla",
+        "type": "Mammalia",
+        "features": "Dense fur and long back legs"
+    },
+    {
+        "name": "Chinstrap Penguin",
+        "type": "Aves",
+        "features": "White face and thin, black line that runs under the chin"
+    },
+    {
+        "name": "Chipmunk",
+        "type": "Mammalia",
+        "features": "Stripes on fur and large front teeth"
+    },
+    {
+        "name": "Cichlid",
+        "type": "Actinopterygii",
+        "features": "Bright colours and hugely diverse"
+    },
+    {
+        "name": "Clouded Leopard",
+        "type": "Mammalia",
+        "features": "Dark cloud-like markings and long tail"
+    },
+    {
+        "name": "Clown Fish",
+        "type": "Actinopterygii",
+        "features": "Bright markings and immune to stings from the sea anemone"
+    },
+    {
+        "name": "Coati",
+        "type": "Mammalia",
+        "features": "Elongated snout and long, bushy tail"
+    },
+    {
+        "name": "Cockroach",
+        "type": "Insecta",
+        "features": "Long antennae and brain located in body not head"
+    },
+    {
+        "name": "Collared Peccary",
+        "type": "Mammalia",
+        "features": "Upper canines are very sharp, strong scent gland on upper rump."
+    },
+    {
+        "name": "Common Buzzard",
+        "type": "Aves",
+        "features": "Small head and curved beak"
+    },
+    {
+        "name": "Common Frog",
+        "type": "Amphibia",
+        "features": "Short back legs and webbed toes"
+    },
+    {
+        "name": "Common Loon",
+        "type": "Aves",
+        "features": "Large body size and eerie, yodel-like call"
+    },
+    {
+        "name": "Common Toad",
+        "type": "Amphibia",
+        "features": "Rough skin and long, agile toes"
+    },
+    {
+        "name": "Coral",
+        "type": "Anthozoa",
+        "features": "Variety of colours and full of holes for species to hind in"
+    },
+    {
+        "name": "Cottontop Tamarin",
+        "type": "Mammalia",
+        "features": "Small body size and long, thin tail"
+    },
+    {
+        "name": "Cougar",
+        "type": "Mammalia",
+        "features": "Powerful forearms and paws and muscular jaw"
+    },
+    {
+        "name": "Cow",
+        "type": "Mammalia",
+        "features": "Thick leathery skin and complex digestive system"
+    },
+    {
+        "name": "Coyote",
+        "type": "Mammalia",
+        "features": "Pointed ears and nose and a long, bushy tail"
+    },
+    {
+        "name": "Crab",
+        "type": "Crustacea",
+        "features": "Hard, armoured shell and eight legs"
+    },
+    {
+        "name": "Crab-Eating Macaque",
+        "type": "Mammalia",
+        "features": "Very sociable animal with a long tail"
+    },
+    {
+        "name": "Crane",
+        "type": "Aves",
+        "features": "Large body size and long beak"
+    },
+    {
+        "name": "Crested Penguin",
+        "type": "Aves",
+        "features": "Red beak and bright yellow eyebrows"
+    },
+    {
+        "name": "Crocodile",
+        "type": "Reptilia",
+        "features": "Eyes and nostrils located on top of the head and snout"
+    },
+    {
+        "name": "Cross River Gorilla",
+        "type": "Mammalia",
+        "features": "Large head and long arms"
+    },
+    {
+        "name": "Cuscus",
+        "type": "Mammalia",
+        "features": "Long tail and strong toes"
+    },
+    {
+        "name": "Cuttlefish",
+        "type": "Cephalopoda",
+        "features": "Long body shape and large eyes"
+    },
+    {
+        "name": "Darwin's Frog",
+        "type": "Amphibia",
+        "features": "Small body size and leaf-like appearance"
+    },
+    {
+        "name": "Deer",
+        "type": "Mammalia",
+        "features": "Long ears and some male species have antlers"
+    },
+    {
+        "name": "Desert Tortoise",
+        "type": "Reptilia",
+        "features": "Small size and patterned shell"
+    },
+    {
+        "name": "Dhole",
+        "type": "Mammalia",
+        "features": "Bushy tail and distinctive calls"
+    },
+    {
+        "name": "Dingo",
+        "type": "Mammalia",
+        "features": "Pricked ears and a long bushy tail"
+    },
+    {
+        "name": "Discus",
+        "type": "Actinopterygii",
+        "features": "A round and colourful disc-like body"
+    },
+    {
+        "name": "Dodo",
+        "type": "Aves",
+        "features": "Hooked beak and unable to fly"
+    },
+    {
+        "name": "Dog",
+        "type": "Mammalia",
+        "features": ""
+    },
+    {
+        "name": "Dolphin",
+        "type": "Mammalia",
+        "features": "Rounded dorsal in and striped skin"
+    },
+    {
+        "name": "Donkey",
+        "type": "Mammalia",
+        "features": "Stocky body and hee-haw sounds"
+    },
+    {
+        "name": "Dormouse",
+        "type": "Mammalia",
+        "features": "Long tail and thin, black whiskers"
+    },
+    {
+        "name": "Dragonfly",
+        "type": "Insecta",
+        "features": "Long body shape and large, transparent wings"
+    },
+    {
+        "name": "Duck",
+        "type": "Aves",
+        "features": "Long, broad beak and webbed feet"
+    },
+    {
+        "name": "Dugong",
+        "type": "Mammalia",
+        "features": "Large body size and forked tail"
+    },
+    {
+        "name": "Dusky Dolphin",
+        "type": "Mammalia",
+        "features": "Rounded black beak and tall, curved dorsal fin"
+    },
+    {
+        "name": "Dwarf Crocodile",
+        "type": "Sauropsida",
+        "features": "Short and broad snout"
+    },
+    {
+        "name": "Eagle",
+        "type": "Aves",
+        "features": "Long curved beak and strong, sharp claws"
+    },
+    {
+        "name": "Earwig ",
+        "type": "Insecta",
+        "features": "Sharp pincers and delicate wings"
+    },
+    {
+        "name": "Eastern Gorilla",
+        "type": "Mammalia",
+        "features": "Sociable habits and agile hands and feet"
+    },
+    {
+        "name": "Eastern Lowland Gorilla",
+        "type": "Mammalia",
+        "features": "Sociable habits and agile hands and feet"
+    },
+    {
+        "name": "Echidna",
+        "type": "Mammalia",
+        "features": "Long snout and spikes and curved claws"
+    },
+    {
+        "name": "Edible Frog",
+        "type": "Amphibia",
+        "features": "Long legs and streamlined body"
+    },
+    {
+        "name": "Electric Eel",
+        "type": "Actinopterygii",
+        "features": "Long body and organs that produce and electric current"
+    },
+    {
+        "name": "Elephant",
+        "type": "Mammalia",
+        "features": "Large body size and long trunk "
+    },
+    {
+        "name": "Elephant Seal",
+        "type": "Mammalia",
+        "features": "Long trunk-like nose and large body"
+    },
+    {
+        "name": "Elephant Shrew",
+        "type": "Mammalia",
+        "features": "Long nose and long back legs"
+    },
+    {
+        "name": "Emperor Penguin",
+        "type": "Aves",
+        "features": "Bright yellow feathers on neck and ears"
+    },
+    {
+        "name": "Emperor Tamarin",
+        "type": "Mammalia",
+        "features": "Small body size and long, thin tail"
+    },
+    {
+        "name": "Emu",
+        "type": "Aves",
+        "features": "Enormous body size and large eyes"
+    },
+    {
+        "name": "Falcon",
+        "type": "Aves",
+        "features": "Sharp, pointed beak and aerodynamic body shape"
+    },
+    {
+        "name": "Fennec Fox",
+        "type": "Mammalia",
+        "features": "Large, over-sized ears"
+    },
+    {
+        "name": "Ferret",
+        "type": "Mammalia",
+        "features": "Long thin body and large eyes"
+    },
+    {
+        "name": "Fin Whale",
+        "type": "Mammalia",
+        "features": "Pointed snout and two blowholes on top of head"
+    },
+    {
+        "name": "Fire-Bellied Toad",
+        "type": "Amphibia",
+        "features": "Brightly coloured belly and long toes"
+    },
+    {
+        "name": "Fishing Cat",
+        "type": "Mammalia",
+        "features": "Long, stocky body and slightly webbed paws"
+    },
+    {
+        "name": "Flamingo",
+        "type": "Aves",
+        "features": "Long, curved beak and sleep standing on one leg"
+    },
+    {
+        "name": "Flounder",
+        "type": "Actinopterygii",
+        "features": "Flattened body often with coloured spots"
+    },
+    {
+        "name": "Fly",
+        "type": "Insecta",
+        "features": "Rounded body shape and lack of eyelids"
+    },
+    {
+        "name": "Flying Squirrel",
+        "type": "Mammalia",
+        "features": "Small body size and  furry glide membrane"
+    },
+    {
+        "name": "Fossa",
+        "type": "Mammalia",
+        "features": "Webbed toes and retractable claws"
+    },
+    {
+        "name": "Fox",
+        "type": "Mammalia",
+        "features": "Pointed ears and long bushy tail"
+    },
+    {
+        "name": "Frigatebird",
+        "type": "Aves",
+        "features": "Large wingspan and enlarged red throat of the male"
+    },
+    {
+        "name": "Frilled Lizard",
+        "type": "Reptilia",
+        "features": "Long tail and large expanding frill on neck"
+    },
+    {
+        "name": "Frog",
+        "type": "Amphibia",
+        "features": "Brightly coloured skin and long sticky tongue"
+    },
+    {
+        "name": "Fur Seal",
+        "type": "Mammalia",
+        "features": "External ear flaps and stocky build"
+    },
+    {
+        "name": "Galapagos Penguin",
+        "type": "Aves",
+        "features": "Small body size and fully black head"
+    },
+    {
+        "name": "Galapagos Tortoise",
+        "type": "Reptilia",
+        "features": "Hard shell over body and long neck "
+    },
+    {
+        "name": "Gar",
+        "type": "Actinopterygii",
+        "features": "Elongated body and sharp needle-like teeth"
+    },
+    {
+        "name": "Gecko",
+        "type": "Reptilia",
+        "features": "Elongated body and able to walk up vertical surfaces"
+    },
+    {
+        "name": "Gentoo Penguin",
+        "type": "Aves",
+        "features": "Small head with orange beak and feet"
+    },
+    {
+        "name": "Geoffroys Tamarin",
+        "type": "Mammalia",
+        "features": "Small body size and long, thin tail"
+    },
+    {
+        "name": "Gerbil",
+        "type": "Mammalia",
+        "features": "Small body and long detachable tail"
+    },
+    {
+        "name": "Gharial",
+        "type": "Reptilia",
+        "features": "Long and slender snout"
+    },
+    {
+        "name": "Giant African Land Snail",
+        "type": "Gastropoda",
+        "features": "Hard protective shell and have both male and female reproductive organs"
+    },
+    {
+        "name": "Giant Clam",
+        "type": "Bivalvia",
+        "features": "Large zig-zag edged shell"
+    },
+    {
+        "name": "Giant Panda Bear",
+        "type": "Mammalia",
+        "features": "Extension of wrist bone acts as a thumb"
+    },
+    {
+        "name": "Gibbon",
+        "type": "Mammalia",
+        "features": "Very long arms and lightweight body"
+    },
+    {
+        "name": "Gila Monster",
+        "type": "Reptilia",
+        "features": "Fat-storing tail and venomous bite"
+    },
+    {
+        "name": "Giraffe",
+        "type": "Mammalia",
+        "features": "Elongated neck and unique patterned coat"
+    },
+    {
+        "name": "Glass Lizard",
+        "type": "Reptilia",
+        "features": "Forked tongue and detachable tail"
+    },
+    {
+        "name": "Glow Worm",
+        "type": "Insecta",
+        "features": "Long, flat body and green light on tail"
+    },
+    {
+        "name": "Goat",
+        "type": "Mammalia",
+        "features": "Long ears and two horns"
+    },
+    {
+        "name": "Golden Lion Tamarin",
+        "type": "Mammalia",
+        "features": "Golden colour and thick lion-like mane on top of head"
+    },
+    {
+        "name": "Golden Oriole",
+        "type": "Aves",
+        "features": "Yellow plumage of males and bright red eyes"
+    },
+    {
+        "name": "Goose",
+        "type": "Aves",
+        "features": "Long neck and noisy communication calls"
+    },
+    {
+        "name": "Gopher",
+        "type": "Mammalia",
+        "features": "Puffy face and long front teeth"
+    },
+    {
+        "name": "Gorilla",
+        "type": "Mammalia",
+        "features": "Large head and long arms"
+    },
+    {
+        "name": "Grasshopper",
+        "type": "Insecta",
+        "features": "Long, thin antenna and the ability to jump "
+    },
+    {
+        "name": "Great White Shark",
+        "type": "Chondrichthyes",
+        "features": "Large pointed snout and powerful tail fin"
+    },
+    {
+        "name": "Green Bee-Eater",
+        "type": "Aves",
+        "features": "Long curved beak and bright green plumage"
+    },
+    {
+        "name": "Grey Mouse Lemur",
+        "type": "Mammalia",
+        "features": "Small body size and large eyes"
+    },
+    {
+        "name": "Grey Reef Shark",
+        "type": "Chondrichthyes",
+        "features": "Long, broad snout and large eyes"
+    },
+    {
+        "name": "Grey Seal",
+        "type": "Mammalia",
+        "features": "Speckled body and shiny, white whiskers"
+    },
+    {
+        "name": "Grizzly Bear",
+        "type": "Mammalia",
+        "features": "Strong, powerful shoulders and enormous claws"
+    },
+    {
+        "name": "Grouse",
+        "type": "Aves",
+        "features": "Long tail feathers and feathered legs and toes"
+    },
+    {
+        "name": "Guinea Fowl",
+        "type": "Aves",
+        "features": "Large body size and bald neck"
+    },
+    {
+        "name": "Guinea Pig",
+        "type": "Mammalia",
+        "features": "Four large front teeth"
+    },
+    {
+        "name": "Guppy",
+        "type": "Actinopterygii",
+        "features": "Brightly coloured body and fins and give birth to live young"
+    },
+    {
+        "name": "Hammerhead Shark",
+        "type": "Chondrichthyes",
+        "features": "Broad, flat head and large eyes"
+    },
+    {
+        "name": "Hamster",
+        "type": "Mammalia",
+        "features": "Food storage pouches and the ability to run backwards"
+    },
+    {
+        "name": "Hare",
+        "type": "Mammalia",
+        "features": "Long legs and ears and large body and feet"
+    },
+    {
+        "name": "Hedgehog",
+        "type": "Mammalia",
+        "features": "Long snout and can roll into a spiky ball"
+    },
+    {
+        "name": "Hercules Beetle",
+        "type": "Insecta",
+        "features": "Hard, armoured shell and horn-like pincers"
+    },
+    {
+        "name": "Hermit Crab",
+        "type": "Malacostraca",
+        "features": "Long body shape and lives in protective shell"
+    },
+    {
+        "name": "Heron",
+        "type": "Aves",
+        "features": "Long thin legs and pointed beak"
+    },
+    {
+        "name": "Highland Cattle",
+        "type": "Mammalia",
+        "features": "Long, thick hair and large, curved horns"
+    },
+    {
+        "name": "Hippopotamus",
+        "type": "Mammalia",
+        "features": "Ears, eyes and nostrils on top of the head"
+    },
+    {
+        "name": "Honey Bee",
+        "type": "Insecta",
+        "features": "Black and yellow body and sting on tail of the female"
+    },
+    {
+        "name": "Horn Shark",
+        "type": "Chondrichthyes",
+        "features": "Short head with high ridges above the eyes"
+    },
+    {
+        "name": "Horned Frog",
+        "type": "Amphibia",
+        "features": "Bumpy skin and long, sticky tongue"
+    },
+    {
+        "name": "Horse",
+        "type": "Mammalia",
+        "features": "Long, thin legs and long mane and tail"
+    },
+    {
+        "name": "Horseshoe Crab",
+        "type": "Merostomata",
+        "features": "Armoured shell with long, thin tail"
+    },
+    {
+        "name": "Howler Monkey",
+        "type": "Mammalia",
+        "features": "Long tail and extremely loud vocal calls"
+    },
+    {
+        "name": "Human",
+        "type": "Mammalia",
+        "features": "Walk on two feet and intelligent communications"
+    },
+    {
+        "name": "Humboldt Penguin",
+        "type": "Aves",
+        "features": "Pink base of beak and black and white markings"
+    },
+    {
+        "name": "Hummingbird",
+        "type": "Aves",
+        "features": "Long, thin beak and the ability to hover"
+    },
+    {
+        "name": "Humpback Whale",
+        "type": "Mammalia",
+        "features": "Long fins and wide, flat head"
+    },
+    {
+        "name": "Hyena",
+        "type": "Mammalia",
+        "features": "Long front legs and laugh like calls"
+    },
+    {
+        "name": "Ibis",
+        "type": "Aves",
+        "features": "Rounded body and long neck and beak"
+    },
+    {
+        "name": "Iguana",
+        "type": "Reptilia",
+        "features": "Long tongue and change skin colour with mood"
+    },
+    {
+        "name": "Impala",
+        "type": "Mammalia",
+        "features": "Small and slim body and curved horns"
+    },
+    {
+        "name": "Indian Elephant",
+        "type": "Mammalia",
+        "features": "Long trunk and large feet"
+    },
+    {
+        "name": "Indian Palm Squirrel",
+        "type": "Mammalia",
+        "features": "Stripes on back and long front teeth"
+    },
+    {
+        "name": "Indian Rhinoceros",
+        "type": "Mammalia",
+        "features": "Hard, thick skin and only one horn"
+    },
+    {
+        "name": "Indian Star Tortoise",
+        "type": "Reptilia",
+        "features": "High domed, star patterned protective shell"
+    },
+    {
+        "name": "Indochinese Tiger",
+        "type": "Mammalia",
+        "features": "Striped fur and powerful body"
+    },
+    {
+        "name": "Indri",
+        "type": "Mammalia",
+        "features": "Black and white markings and loud, prolonged vocal calls"
+    },
+    {
+        "name": "Jackal",
+        "type": "Mammalia",
+        "features": "Short body and large ears and eyes"
+    },
+    {
+        "name": "Jaguar",
+        "type": "Mammalia",
+        "features": "Beautiful rosetted fur pattern"
+    },
+    {
+        "name": "Japanese Macaque",
+        "type": "Mammalia",
+        "features": "Red and human-like, naked face"
+    },
+    {
+        "name": "Javan Rhinoceros",
+        "type": "Mammalia",
+        "features": "Hard, thick skin and only one horn"
+    },
+    {
+        "name": "Jellyfish",
+        "type": "Scyphozoa",
+        "features": "Jelly-like body and long, stinging tentacles"
+    },
+    {
+        "name": "Kakapo",
+        "type": "Aves",
+        "features": "Large body size and unable to fly"
+    },
+    {
+        "name": "Kangaroo",
+        "type": "Mammalia",
+        "features": "Pouch on female and hop on hind legs"
+    },
+    {
+        "name": "Keel Billed Toucan",
+        "type": "Aves",
+        "features": "Small body and enormous colourful beak"
+    },
+    {
+        "name": "Killer Whale",
+        "type": "Mammalia",
+        "features": "Tall, wide dorsal fin and black and white markings"
+    },
+    {
+        "name": "King Crab",
+        "type": "Crustacea",
+        "features": "Large body and legs with thick, armoured shell"
+    },
+    {
+        "name": "King Penguin",
+        "type": "Aves",
+        "features": "Large body size with yellow markings on head"
+    },
+    {
+        "name": "Kingfisher",
+        "type": "Aves",
+        "features": "Small body and long, sharp and straight beaks"
+    },
+    {
+        "name": "Kiwi",
+        "type": "Aves",
+        "features": "Round body and long, sharp and straight beaks"
+    },
+    {
+        "name": "Koala",
+        "type": "Mammalia",
+        "features": "Large, wide head and tufted, round ears"
+    },
+    {
+        "name": "Komodo Dragon",
+        "type": "Reptilia",
+        "features": "Long and deep forked tongue to taste the air"
+    },
+    {
+        "name": "Kudu",
+        "type": "Mammalia",
+        "features": "Large ears and white stripes on body"
+    },
+    {
+        "name": "Ladybird",
+        "type": "Insecta",
+        "features": "Brightly coloured shell and hibernate in large groups"
+    },
+    {
+        "name": "Leaf-Tailed Gecko",
+        "type": "Reptilia",
+        "features": "Sticky toes and broad, flattened tail"
+    },
+    {
+        "name": "Lemming",
+        "type": "Mammalia",
+        "features": "Thick fur and small eyes and ears"
+    },
+    {
+        "name": "Lemur",
+        "type": "Mammalia",
+        "features": "Long body and tail and large eyes"
+    },
+    {
+        "name": "Leopard",
+        "type": "Mammalia",
+        "features": "Dense patterned fur and long, sharp teeth"
+    },
+    {
+        "name": "Leopard Cat",
+        "type": "Mammalia",
+        "features": "Webbed toes and spotted fur"
+    },
+    {
+        "name": "Leopard Seal",
+        "type": "Mammalia",
+        "features": "Spot-patterned fur and long, sharp teeth"
+    },
+    {
+        "name": "Leopard Tortoise",
+        "type": "Reptilia",
+        "features": "Large body size and protective, patterned shell"
+    },
+    {
+        "name": "Liger",
+        "type": "Mammalia",
+        "features": "Enormous head and body size"
+    },
+    {
+        "name": "Lion",
+        "type": "Mammalia",
+        "features": "Long and thick hairy mane of the male around the face"
+    },
+    {
+        "name": "Lionfish",
+        "type": "Actinopterygii",
+        "features": "Striped body markings with long spines"
+    },
+    {
+        "name": "Little Penguin",
+        "type": "Aves",
+        "features": "Small body size with blue/grey feathers"
+    },
+    {
+        "name": "Lizard",
+        "type": "Reptilia",
+        "features": "Long thin body and detachable coloured tail"
+    },
+    {
+        "name": "Llama",
+        "type": "Mammalia",
+        "features": "Thick furry coat and long neck"
+    },
+    {
+        "name": "Lobster",
+        "type": "Crustacea",
+        "features": "Thick armoured shell and strong claws"
+    },
+    {
+        "name": "Long-Eared Owl",
+        "type": "Aves",
+        "features": "Long ear-tufts and tan-coloured eye disks"
+    },
+    {
+        "name": "Lynx",
+        "type": "Mammalia",
+        "features": "Long tufts on ears and short tail"
+    },
+    {
+        "name": "Macaroni Penguin",
+        "type": "Aves",
+        "features": "Large red beak and yellow feathers on head"
+    },
+    {
+        "name": "Macaw",
+        "type": "Aves",
+        "features": "Large colourful body and curved beak"
+    },
+    {
+        "name": "Magellanic Penguin",
+        "type": "Aves",
+        "features": "Black beak and small wings"
+    },
+    {
+        "name": "Magpie",
+        "type": "Aves",
+        "features": "Black and white markings and long wedge-shaped tail"
+    },
+    {
+        "name": "Malayan Civet",
+        "type": "Mammalia",
+        "features": "Elongated body and snout with sharp, pointed teeth"
+    },
+    {
+        "name": "Malayan Tiger",
+        "type": "Mammalia",
+        "features": "Striped fur and powerful body"
+    },
+    {
+        "name": "Manatee",
+        "type": "Mammalia",
+        "features": "Thick, wrinkled skin and flippers with no nails"
+    },
+    {
+        "name": "Mandrill",
+        "type": "Mammalia",
+        "features": "Brightly coloured snout and long, sharp teeth"
+    },
+    {
+        "name": "Manta Ray",
+        "type": "Chondrichthyes",
+        "features": "Plate-like teeth and enormous body"
+    },
+    {
+        "name": "Marine Toad",
+        "type": "Amphibia",
+        "features": "Large body size and rough skin"
+    },
+    {
+        "name": "Markhor",
+        "type": "Mammalia",
+        "features": "Long winter hair and large, spiralled horns"
+    },
+    {
+        "name": "Marsh Frog",
+        "type": "Amphibia",
+        "features": "Large head and long hind legs"
+    },
+    {
+        "name": "Masked Palm Civet",
+        "type": "Mammalia",
+        "features": "Elongated body and snout with sharp, pointed teeth"
+    },
+    {
+        "name": "Mayfly",
+        "type": "Insecta",
+        "features": "Long bodies and large wings"
+    },
+    {
+        "name": "Meerkat",
+        "type": "Mammalia",
+        "features": "Dark bands around eyes and white face"
+    },
+    {
+        "name": "Millipede",
+        "type": "Myriapoda",
+        "features": "Segmented body and many legs"
+    },
+    {
+        "name": "Minke Whale",
+        "type": "Mammalia",
+        "features": "Pointed head and white band on flippers"
+    },
+    {
+        "name": "Mole",
+        "type": "Mammalia",
+        "features": "Long curved claws and pointed snout"
+    },
+    {
+        "name": "Molly",
+        "type": "Actinopterygii",
+        "features": "Large-sized fins and bear live young"
+    },
+    {
+        "name": "Mongoose",
+        "type": "Mammalia",
+        "features": "Long tail and docile temperament"
+    },
+    {
+        "name": "Monitor Lizard",
+        "type": "Reptilia",
+        "features": "Large, powerful body and sharp claws"
+    },
+    {
+        "name": "Monkey",
+        "type": "Mammalia",
+        "features": "Long, agile tail and loud vocal calls"
+    },
+    {
+        "name": "Monte Iberia Eleuth",
+        "type": "Amphibia",
+        "features": "Tiny body size with bright yellow stripes"
+    },
+    {
+        "name": "Moorhen",
+        "type": "Aves",
+        "features": "Small rounded head and pointed beak"
+    },
+    {
+        "name": "Moose",
+        "type": "Mammalia",
+        "features": "Long head and large antlers on the male"
+    },
+    {
+        "name": "Moray Eel",
+        "type": "Actinopterygii",
+        "features": "Sharp teeth and elongated body"
+    },
+    {
+        "name": "Moth",
+        "type": "Insecta",
+        "features": "Long, curled tongue and delicate, patterned wings"
+    },
+    {
+        "name": "Mountain Gorilla",
+        "type": "Mammalia",
+        "features": "Sociable habits and agile hands and feet"
+    },
+    {
+        "name": "Mountain Lion",
+        "type": "Mammalia",
+        "features": "Powerful forearms and paws and muscular jaw"
+    },
+    {
+        "name": "Mouse",
+        "type": "Mammalia",
+        "features": "Large eyes and ears and long thin tail"
+    },
+    {
+        "name": "Mule",
+        "type": "Mammalia",
+        "features": "Stocky body and long snout and ears"
+    },
+    {
+        "name": "Neanderthal",
+        "type": "Mammalia",
+        "features": "Walk on two feet and intelligent communications"
+    },
+    {
+        "name": "Newt",
+        "type": "Lissamphibia",
+        "features": "Permeable, toxic skin and feathery gills"
+    },
+    {
+        "name": "Nightingale",
+        "type": "Aves",
+        "features": "Small body size with no markings and thin beak"
+    },
+    {
+        "name": "Numbat",
+        "type": "Mammalia",
+        "features": "Long tail and snout and striped body"
+    },
+    {
+        "name": "Nurse Shark",
+        "type": "Chondrichthyes",
+        "features": "Rounded dorsal fins and large tail fin"
+    },
+    {
+        "name": "Ocelot",
+        "type": "Mammalia",
+        "features": "Rosettes, spots and stripes on fur"
+    },
+    {
+        "name": "Octopus",
+        "type": "Cephalopoda",
+        "features": "Eight tentacles with suckers and ink sack"
+    },
+    {
+        "name": "Okapi",
+        "type": "Mammalia",
+        "features": "Horizontal white stripes on rear and legs"
+    },
+    {
+        "name": "Olm",
+        "type": "Amphibia",
+        "features": "Elongated body and undeveloped limbs"
+    },
+    {
+        "name": "Opossum",
+        "type": "Mammalia",
+        "features": "Long prehensile tail and sharp claws"
+    },
+    {
+        "name": "Orang-utan",
+        "type": "Mammalia",
+        "features": "Red hair and longer arms than legs"
+    },
+    {
+        "name": "Ostrich",
+        "type": "Aves",
+        "features": "Small wings and long neck and legs"
+    },
+    {
+        "name": "Otter",
+        "type": "Mammalia",
+        "features": "Long streamline body and broad, flat tail"
+    },
+    {
+        "name": "Oyster",
+        "type": "Bivalvia",
+        "features": "Filter water through their hard shell"
+    },
+    {
+        "name": "Pademelon",
+        "type": "Mammalia",
+        "features": "Pointed nose and short, thick tail"
+    },
+    {
+        "name": "Panther",
+        "type": "Mammalia",
+        "features": "Bright emerald green eyes"
+    },
+    {
+        "name": "Parrot",
+        "type": "Aves",
+        "features": "Large colourful body and curved beak"
+    },
+    {
+        "name": "Patas Monkey",
+        "type": "Mammalia",
+        "features": "Red back and white moustache and beard"
+    },
+    {
+        "name": "Peacock",
+        "type": "Aves",
+        "features": "Long tail feathers and colourful tail of males"
+    },
+    {
+        "name": "Pelican",
+        "type": "Aves",
+        "features": "Pouch hanging from underside of beak and keen eyesight"
+    },
+    {
+        "name": "Penguin",
+        "type": "Aves",
+        "features": "Short, sharp beak and slight webbed feet"
+    },
+    {
+        "name": "Pheasant",
+        "type": "Aves",
+        "features": "Brightly coloured feathers and long tail of the male"
+    },
+    {
+        "name": "Pied Tamarin",
+        "type": "Mammalia",
+        "features": "Small body size and long, thin tail"
+    },
+    {
+        "name": "Pig",
+        "type": "Mammalia",
+        "features": "Upturned snout and curly tail"
+    },
+    {
+        "name": "Pika",
+        "type": "Mammalia",
+        "features": "Small body size and no tail"
+    },
+    {
+        "name": "Pike",
+        "type": "Actinopterygii",
+        "features": "Elongated body and strong jaw"
+    },
+    {
+        "name": "Pink Fairy Armadillo",
+        "type": "Mammalia",
+        "features": "Hard shell, large front claws, shielded head"
+    },
+    {
+        "name": "Piranha",
+        "type": "Actinopterygii",
+        "features": "Rounded head and a single row and triangular teeth"
+    },
+    {
+        "name": "Platypus",
+        "type": "Mammalia",
+        "features": "Bill that looks like the beak of a duck"
+    },
+    {
+        "name": "Poison Dart Frog",
+        "type": "Amphibia",
+        "features": "Brightly coloured body and produces high levels of toxins"
+    },
+    {
+        "name": "Polar Bear",
+        "type": "Mammalia",
+        "features": "Clear not white fur and black skin"
+    },
+    {
+        "name": "Pond Skater",
+        "type": "Insecta",
+        "features": "Armoured shell and walk on water"
+    },
+    {
+        "name": "Pool Frog",
+        "type": "Amphibia",
+        "features": "Spotted patterned skin and pointed snout"
+    },
+    {
+        "name": "Porcupine",
+        "type": "Mammalia",
+        "features": "Broad, stout body and toxic spikes"
+    },
+    {
+        "name": "Possum",
+        "type": "Mammalia",
+        "features": "Long prehensile tail and sharp claws"
+    },
+    {
+        "name": "Prawn",
+        "type": "Crustacea",
+        "features": "Hard, curved body and beady eyes"
+    },
+    {
+        "name": "Proboscis Monkey",
+        "type": "Mammalia",
+        "features": "Long, fleshy nose and swollen stomach"
+    },
+    {
+        "name": "Puffer Fish",
+        "type": "Actinopterygii",
+        "features": "Inflatable body and sharp poisonous spikes"
+    },
+    {
+        "name": "Puffin",
+        "type": "Aves",
+        "features": "Brightly coloured, triangular bill"
+    },
+    {
+        "name": "Puma",
+        "type": "Mammalia",
+        "features": "Has a solid-coloured coat of fur"
+    },
+    {
+        "name": "Purple Emperor",
+        "type": "Insecta",
+        "features": "Long, curled tongue and brightly coloured wings"
+    },
+    {
+        "name": "Puss Moth",
+        "type": "Insecta",
+        "features": "Black and white markings and dangerous nature of the caterpillar"
+    },
+    {
+        "name": "Pygmy Hippopotamus",
+        "type": "Mammalia",
+        "features": "Webbed toes and barrel-shaped body"
+    },
+    {
+        "name": "Pygmy Marmoset",
+        "type": "Mammalia",
+        "features": "Long tail and furry ear tufts"
+    },
+    {
+        "name": "Quail",
+        "type": "Aves",
+        "features": "Small body size and brightly coloured eggs"
+    },
+    {
+        "name": "Quetzal",
+        "type": "Aves",
+        "features": "Soft and deep but loud calls"
+    },
+    {
+        "name": "Quokka",
+        "type": "Mammalia",
+        "features": "Rounded body, ears and snout"
+    },
+    {
+        "name": "Quoll",
+        "type": "Mammalia",
+        "features": "Elongated snout and long, bushy tail"
+    },
+    {
+        "name": "Rabbit",
+        "type": "Mammalia",
+        "features": "Long, pointed ears and acute sight, smell and taste"
+    },
+    {
+        "name": "Raccoon",
+        "type": "Mammalia",
+        "features": "Black mask on face and dexterous hands and feet"
+    },
+    {
+        "name": "Raccoon Dog",
+        "type": "Mammalia",
+        "features": "Dexterous front paws and pointed snout"
+    },
+    {
+        "name": "Radiated Tortoise",
+        "type": "Reptilia",
+        "features": "High domed protective shell and yellow limbs"
+    },
+    {
+        "name": "Rat",
+        "type": "Mammalia",
+        "features": "Large, sharp front teeth and long, thin tail"
+    },
+    {
+        "name": "Red Knee Tarantula",
+        "type": "Arachnida",
+        "features": "Hairy body and stripes on legs"
+    },
+    {
+        "name": "Red Panda",
+        "type": "Mammalia",
+        "features": "Rusty coloured thick fur and striped face"
+    },
+    {
+        "name": "Red Wolf",
+        "type": "Mammalia",
+        "features": "Reddish fur and thin white legs"
+    },
+    {
+        "name": "Red-handed Tamarin",
+        "type": "Mammalia",
+        "features": "Small body size and long, thin tail"
+    },
+    {
+        "name": "Reindeer",
+        "type": "Mammalia",
+        "features": "Double layer of thick fur and large antlers of the males"
+    },
+    {
+        "name": "Rhinoceros",
+        "type": "Mammalia",
+        "features": "Hard, thick skin and two large horns"
+    },
+    {
+        "name": "River Dolphin",
+        "type": "Mammalia",
+        "features": "Long, narrow beak and flexible neck"
+    },
+    {
+        "name": "River Turtle",
+        "type": "Reptilia",
+        "features": "Hard protective shell and strong, powerful flippers"
+    },
+    {
+        "name": "Robin",
+        "type": "Aves",
+        "features": "Small body size and bright red chest of males"
+    },
+    {
+        "name": "Rock Hyrax",
+        "type": "Mammalia",
+        "features": "Rubbery soles of their feet"
+    },
+    {
+        "name": "Rockhopper Penguin",
+        "type": "Aves",
+        "features": "Red beaks and eyes, with yellow head feathers"
+    },
+    {
+        "name": "Roseate Spoonbill",
+        "type": "Aves",
+        "features": "A long, spatula-shaped bill"
+    },
+    {
+        "name": "Royal Penguin",
+        "type": "Aves",
+        "features": "Orange beak with yellow feathers on head"
+    },
+    {
+        "name": "Sabre-Toothed Tiger",
+        "type": "Mammalia",
+        "features": "Large muscular body and long canine teeth"
+    },
+    {
+        "name": "Salamander",
+        "type": "Amphibia",
+        "features": "Flattened head and body and small eyes"
+    },
+    {
+        "name": "Sand Lizard",
+        "type": "Reptilia",
+        "features": "Striped patterned body and forked tongue"
+    },
+    {
+        "name": "Saola",
+        "type": "Mammalia",
+        "features": "Horns that can grow up to 50cm long"
+    },
+    {
+        "name": "Scorpion",
+        "type": "Arachnida",
+        "features": "Enormous front pincers and curved stinger tail"
+    },
+    {
+        "name": "Scorpion Fish",
+        "type": "Actinopterygii",
+        "features": "Venomous sting and camouflaged body"
+    },
+    {
+        "name": "Sea Dragon",
+        "type": "Actinopterygii",
+        "features": "Elongated snout and easily camouflaged body"
+    },
+    {
+        "name": "Sea Lion",
+        "type": "Mammalia",
+        "features": "Strong jaw and the ability to walk on land"
+    },
+    {
+        "name": "Sea Otter",
+        "type": "Mammalia",
+        "features": "Very dense fur and sharp claws"
+    },
+    {
+        "name": "Sea Slug",
+        "type": "Holothuroidea",
+        "features": "Elongated body shape and colourful markings"
+    },
+    {
+        "name": "Sea Squirt",
+        "type": "Urochordata",
+        "features": "Long tube-like appearance"
+    },
+    {
+        "name": "Sea Turtle",
+        "type": "Reptilia",
+        "features": "Hard body shell and powerful, strong flippers"
+    },
+    {
+        "name": "Sea Urchin",
+        "type": "Echinoidea",
+        "features": "Small stinging structures and claw-like mouth"
+    },
+    {
+        "name": "Seahorse",
+        "type": "Actinopterygii",
+        "features": "Long snout and brooding pouch on the male"
+    },
+    {
+        "name": "Seal",
+        "type": "Mammalia",
+        "features": "Thick fur and streamline body"
+    },
+    {
+        "name": "Serval",
+        "type": "Mammalia",
+        "features": "Large and round dish-like ears"
+    },
+    {
+        "name": "Sheep",
+        "type": "Mammalia",
+        "features": "Thick, woolly coat and short tail"
+    },
+    {
+        "name": "Shrimp",
+        "type": "Crustacea",
+        "features": "Transparent shell and beady eyes"
+    },
+    {
+        "name": "Siamese Fighting Fish",
+        "type": "Actinopterygii",
+        "features": "Feisty temperament and long tail fin"
+    },
+    {
+        "name": "Siberian Tiger",
+        "type": "Mammalia",
+        "features": "Striped fur and large powerful body"
+    },
+    {
+        "name": "Silver Dollar",
+        "type": "Actinopterygii",
+        "features": "Disk-like body and short fins"
+    },
+    {
+        "name": "Skunk",
+        "type": "Mammalia",
+        "features": "Striped fur and defensive stink gland"
+    },
+    {
+        "name": "Sloth",
+        "type": "Mammalia",
+        "features": "Flattened face and long, sharp claws"
+    },
+    {
+        "name": "Slow Worm",
+        "type": "Reptilia",
+        "features": "Long snake-like body and small eyes"
+    },
+    {
+        "name": "Snail",
+        "type": "Gastropoda",
+        "features": "Armoured shell with long, thin eye stems"
+    },
+    {
+        "name": "Snapping Turtle",
+        "type": "Reptilia",
+        "features": "Powerful legs and strong jaw"
+    },
+    {
+        "name": "Snowy Owl",
+        "type": "Aves",
+        "features": "Black and white markings and large head"
+    },
+    {
+        "name": "South China Tiger",
+        "type": "Mammalia",
+        "features": "Striped fur and powerful body"
+    },
+    {
+        "name": "Spadefoot Toad",
+        "type": "Amphibia",
+        "features": "Toxic skin and wide, flat feet"
+    },
+    {
+        "name": "Sparrow",
+        "type": "Aves",
+        "features": "Small body size and rounded head"
+    },
+    {
+        "name": "Spectacled Bear",
+        "type": "Mammalia",
+        "features": "Light spectacles on face and long claws"
+    },
+    {
+        "name": "Sperm Whale",
+        "type": "Mammalia",
+        "features": "Cone-shaped teeth and enormous body size"
+    },
+    {
+        "name": "Spider Monkey",
+        "type": "Mammalia",
+        "features": "Strong, long tail and agile hands and feet"
+    },
+    {
+        "name": "Spiny Dogfish",
+        "type": "Chondrichthyes",
+        "features": "Lack of anal fin and poisonous spines on back"
+    },
+    {
+        "name": "Sponge",
+        "type": "Demospongiae",
+        "features": "Brightly coloured and non-moving lifestyle"
+    },
+    {
+        "name": "Squid",
+        "type": "Cephalopoda",
+        "features": "Long, powerful tentacles and streamline body"
+    },
+    {
+        "name": "Squirrel",
+        "type": "Mammalia",
+        "features": "Cheek teeth and long, furry tail"
+    },
+    {
+        "name": "Squirrel Monkey",
+        "type": "Mammalia",
+        "features": "Longer tail than body used for balance"
+    },
+    {
+        "name": "Sri Lankan Elephant",
+        "type": "Mammalia",
+        "features": "Long trunk and large feet"
+    },
+    {
+        "name": "Stag Beetle",
+        "type": "Insecta",
+        "features": "Hard, armoured shell and large pincers"
+    },
+    {
+        "name": "Starfish",
+        "type": "Asteroidea",
+        "features": "Long arms and suckers on their feet"
+    },
+    {
+        "name": "Stellers Sea Cow",
+        "type": "Mammalia",
+        "features": "Enormous body size and toothless mouths"
+    },
+    {
+        "name": "Stick Insect",
+        "type": "Insecta",
+        "features": "Long bodies that help with camouflage"
+    },
+    {
+        "name": "Stingray",
+        "type": "Chondrichthyes",
+        "features": "Flattened body shape and long tail"
+    },
+    {
+        "name": "Stoat",
+        "type": "Mammalia",
+        "features": "Elongated body and very sharp teeth"
+    },
+    {
+        "name": "Striped Rocket Frog",
+        "type": "Amphibia",
+        "features": "Long legs and streamlined body"
+    },
+    {
+        "name": "Sumatran Elephant",
+        "type": "Mammalia",
+        "features": "Long trunk and large feet"
+    },
+    {
+        "name": "Sumatran Orang-utan",
+        "type": "Mammalia",
+        "features": "Long arms and long, orange hair"
+    },
+    {
+        "name": "Sumatran Rhinoceros",
+        "type": "Mammalia",
+        "features": "Small body size and two horns"
+    },
+    {
+        "name": "Sumatran Tiger",
+        "type": "Mammalia",
+        "features": "Striped fur and smaller body"
+    },
+    {
+        "name": "Sun Bear",
+        "type": "Mammalia",
+        "features": "Yellow or orange U-shaped marking on chest"
+    },
+    {
+        "name": "Swan",
+        "type": "Aves",
+        "features": "Large, powerful wings and webbed feet"
+    },
+    {
+        "name": "Tang",
+        "type": "Actinopterygii",
+        "features": "Pointed snout and razor-sharp scalpel at the base of their tail"
+    },
+    {
+        "name": "Tapanuli Orang-utan",
+        "type": "Mammalia",
+        "features": "Long arms and long, orange hair"
+    },
+    {
+        "name": "Tapir",
+        "type": "Mammalia",
+        "features": "Long, flexible snout and hump on the shoulders"
+    },
+    {
+        "name": "Tarsier",
+        "type": "Mammalia",
+        "features": "Long and powerful hind legs"
+    },
+    {
+        "name": "Tasmanian Devil",
+        "type": "Mammalia",
+        "features": "White band across chest and offensive odor when stressed"
+    },
+    {
+        "name": "Tawny Owl",
+        "type": "Aves",
+        "features": "Large eyes and fantastic hearing"
+    },
+    {
+        "name": "Termite",
+        "type": "Insecta",
+        "features": "Small body size and enormous nests"
+    },
+    {
+        "name": "Tetra",
+        "type": "Actinopterygii",
+        "features": "Small body size and brightly coloured markings"
+    },
+    {
+        "name": "Thorny Devil",
+        "type": "Reptilia",
+        "features": "Spiky skin and water channels throughout body"
+    },
+    {
+        "name": "Tiger",
+        "type": "Mammalia",
+        "features": "Striped fur and powerful body"
+    },
+    {
+        "name": "Tiger Salamander",
+        "type": "Amphibia",
+        "features": "Large eyes and long tails"
+    },
+    {
+        "name": "Tiger Shark",
+        "type": "Chondrichthyes",
+        "features": "Dark black markings and large body size"
+    },
+    {
+        "name": "Tortoise",
+        "type": "Reptilia",
+        "features": "Slow movement and hard, protective body shell"
+    },
+    {
+        "name": "Toucan",
+        "type": "Aves",
+        "features": "Small body and enormous colourful beak"
+    },
+    {
+        "name": "Tree Frog",
+        "type": "Amphibia",
+        "features": "Smooth skin and disc-like toes"
+    },
+    {
+        "name": "Tropicbird",
+        "type": "Aves",
+        "features": "Long pointed beak and large body size"
+    },
+    {
+        "name": "Tuatara",
+        "type": "Reptilia",
+        "features": "Crest along back and third eye on forehead"
+    },
+    {
+        "name": "Turkey",
+        "type": "Aves",
+        "features": "Long tail feathers and red throat of the male"
+    },
+    {
+        "name": "Uakari",
+        "type": "Mammalia",
+        "features": "Hairless face and forehead"
+    },
+    {
+        "name": "Uguisu",
+        "type": "Aves",
+        "features": "Has light-coloured lines above the eyes"
+    },
+    {
+        "name": "Umbrellabird",
+        "type": "Aves",
+        "features": "Umbrella-like crest and black feathers"
+    },
+    {
+        "name": "Vampire Bat",
+        "type": "Mammalia",
+        "features": "Razor-sharp front teeth"
+    },
+    {
+        "name": "Vervet Monkey",
+        "type": "Mammalia",
+        "features": "Black face with white ear tufts"
+    },
+    {
+        "name": "Vulture",
+        "type": "Aves",
+        "features": "Large wings and sharp, curved beak"
+    },
+    {
+        "name": "Wallaby",
+        "type": "Mammalia",
+        "features": "Very sociable animal with a long tail"
+    },
+    {
+        "name": "Walrus",
+        "type": "Mammalia",
+        "features": "Long tusks that can grow up to 1m long"
+    },
+    {
+        "name": "Warthog",
+        "type": "Mammalia",
+        "features": "Strong, curved tusks and broad snout"
+    },
+    {
+        "name": "Wasp",
+        "type": "Insecta",
+        "features": "Long antennae and black and yellow markings"
+    },
+    {
+        "name": "Water Buffalo",
+        "type": "Mammalia",
+        "features": "Large head and body and wallow in water holes"
+    },
+    {
+        "name": "Water Dragon",
+        "type": "Reptilia",
+        "features": "Long tail and flattened shaped feet"
+    },
+    {
+        "name": "Water Vole",
+        "type": "Mammalia",
+        "features": "Small rounded body and hairy tail"
+    },
+    {
+        "name": "Weasel",
+        "type": "Mammalia",
+        "features": "Brown back and head with white underside"
+    },
+    {
+        "name": "Western Gorilla",
+        "type": "Mammalia",
+        "features": "Large head and long arms"
+    },
+    {
+        "name": "Western Lowland Gorilla",
+        "type": "Mammalia",
+        "features": "Large head and long arms"
+    },
+    {
+        "name": "Whale Shark",
+        "type": "Chondrichthyes",
+        "features": "Enormous streamlined body and broad, flat head"
+    },
+    {
+        "name": "White Faced Capuchin",
+        "type": "Mammalia",
+        "features": "White markings on face and long tail"
+    },
+    {
+        "name": "White Rhinoceros",
+        "type": "Mammalia",
+        "features": "Hard, thick skin and two large horns"
+    },
+    {
+        "name": "White Tiger",
+        "type": "Mammalia",
+        "features": "White fur with bright, blue eyes"
+    },
+    {
+        "name": "Wild Boar",
+        "type": "Mammalia",
+        "features": "Long, hard and straight snout"
+    },
+    {
+        "name": "Wildebeest",
+        "type": "Mammalia",
+        "features": "Long, thin legs and hairy face"
+    },
+    {
+        "name": "Wolf",
+        "type": "Mammalia",
+        "features": "Thick, warm fur and loud howling noise"
+    },
+    {
+        "name": "Wolverine",
+        "type": "Mammalia",
+        "features": "Long, sharp claws and bear-like appearance"
+    },
+    {
+        "name": "Wombat",
+        "type": "Mammalia",
+        "features": "Hairy nose and pouch to nurse young"
+    },
+    {
+        "name": "Woodlouse",
+        "type": "Crustacea",
+        "features": "Segmented body and can curl into a ball"
+    },
+    {
+        "name": "Woodpecker",
+        "type": "Aves",
+        "features": "Long, hard beak and striking coloured feathers"
+    },
+    {
+        "name": "Woolly Mammoth",
+        "type": "Mammalia",
+        "features": "Long, thick hair and enormous tusks"
+    },
+    {
+        "name": "Woolly Monkey",
+        "type": "Mammalia",
+        "features": "Rounded head and strong prehensile tail"
+    },
+    {
+        "name": "Wrasse",
+        "type": "Actinopterygii",
+        "features": "Large, thick lips and protractile mouths"
+    },
+    {
+        "name": "X-Ray Tetra",
+        "type": "Actinopterygii",
+        "features": "Striped fins and translucent skin"
+    },
+    {
+        "name": "Yak",
+        "type": "Mammalia",
+        "features": "Thick, hairy coat and large horns"
+    },
+    {
+        "name": "Yellow-Eyed Penguin",
+        "type": "Aves",
+        "features": "Bright yellow head-band and pink coloured feet"
+    },
+    {
+        "name": "Zebra",
+        "type": "Mammalia",
+        "features": "Long, slender legs and one toe on each foot"
+    },
+    {
+        "name": "Zebra Shark",
+        "type": "Chondrichthyes",
+        "features": "Flattened body shape and long tail fin"
+    },
+    {
+        "name": "Zebu",
+        "type": "Mammalia",
+        "features": "Small size and hump behind head"
+    },
+    {
+        "name": "Zonkey",
+        "type": "Mammalia",
+        "features": "Unique stripes darkest on belly and legs"
+    },
+    {
+        "name": "Zorse",
+        "type": "Mammalia",
+        "features": "Unique dark stripes are boldest on legs"
+    }
+]

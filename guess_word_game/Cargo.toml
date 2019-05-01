@@ -1,8 +1,17 @@
 [package]
 name = "guess_word_game"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["josephkirk <josephkirk.art@gmail.com>"]
 edition = "2018"
-
 [dependencies]
 rand = "0.3.14"
+log = { version = "0.4", features = ["max_level_debug", "release_max_level_warn"] }
+env_logger = "0.6"
+serde = "1"
+serde_derive = "1"
+serde_json = "1"
+regex = "1"
+crossterm = "*"
+[profile.dev]
+debug = true
+debug-assertions = true
