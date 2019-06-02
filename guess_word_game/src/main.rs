@@ -20,11 +20,16 @@ use std::{thread, time};
 
 // Define Enum
 enum Guess {
-    Right,
-    Wrong,
-    Invalid
+    Right(String),
+    Wrong(String),
+    Invalid(String)
 }
 
+enum GameCommand {
+    PlayerInput(String),
+    Next(String),
+    Quit(String),
+}
 // Define Constant
 // const ONE_SEC: time::Duration = time::Duration::from_secs(1);
 // const TEN_MILIS: time::Duration = time::Duration::from_millis(100);
@@ -52,21 +57,36 @@ fn pick_random_index(slice_len: usize) -> usize {
     rand::thread_rng().gen_range(0, slice_len-1)
 }
 
-fn check_guess(guess: &str, result_validator:&Regex, input_validator:&Regex, thinking_duration: time::Duration) -> Guess {
+fn check_game_command(gameinput: &str) -> GameCommand {
+    if gameinput.eq_ignore_ascii_case("next") {
+        return GameCommand::Next("Session Skip!".to_string())
+    }
+    if gameinput.eq_ignore_ascii_case("quit") {
+        return GameCommand::Quit("Game Exit!".to_string())
+    }
+    GameCommand::PlayerInput(gameinput.to_string())
+}
+
+fn check_guess(guess: &str, anwser: &str, thinking_duration: time::Duration) -> Guess {
+    let result_validator = Regex::new(&(r"^(?i)".to_owned() + &anwser)).unwrap();
+    let input_validator = Regex::new(r"^([A-Za-z-]+\s*)+$").unwrap();
     thread::sleep(thinking_duration);
+    if guess.len() != anwser.len() {
+        return Guess::Invalid(format!("Input invalid. Your guess word's length must be {} characters long with spaces!", anwser.len()).to_string())
+    }
     println!(".");
     thread::sleep(thinking_duration);
     if !input_validator.is_match(&guess) {
-        return Guess::Invalid
+        return Guess::Invalid("Input invalid. Your guess word should contain only word with space!".to_string())
     }
     println!("..");
     thread::sleep(thinking_duration);
     if !result_validator.is_match(&guess) {
-        return Guess::Wrong
+        return Guess::Wrong("You guessed wrong!".to_string())
     }
     println!("...");
     thread::sleep(thinking_duration);
-    Guess::Right
+    Guess::Right("Congratulation! The secret animal is the {}!".to_string())
 }
 
 fn extract_matching_char(str1: &str, str2: &str) -> Vec<(usize, char)> {
@@ -80,35 +100,40 @@ fn extract_matching_char(str1: &str, str2: &str) -> Vec<(usize, char)> {
     matched_chars
 }
 
-// Main
+fn generate_animal_data() -> Vec<Animal> {
+    let animal_data_string = include_str!("animal_datas.json");
+    let animal_data: Vec<Animal> = serde_json::from_str(&animal_data_string).unwrap_or_else(|error| {
+        panic!("Something wrong when parsing data {:?}", error)
+    });
+    animal_data
+}
 
-fn main() {
+
+fn gameloop() {
+    // Initialize Terminal
     let cterm = Crossterm::new();
     let terminal = cterm.terminal();
     let term_color = cterm.color();
     terminal.clear(ClearType::All).unwrap();
     env_logger::init();
-    let animal_data_string = include_str!("animal_datas.json");
-    let animal_data: Vec<Animal> = serde_json::from_str(&animal_data_string).unwrap_or_else(|error| {
-        panic!("Something wrong when parsing data {:?}", error)
-    });
 
+    // Initialize Game Variable
+    let animal_data = generate_animal_data();
+    let mut score: i64 = 10;
+    let MaxGuessCount = 12;
     let mut guess_count: i64;
     let anticipate_time = time::Duration::from_millis(500);
-    let input_validator = Regex::new(r"^([A-Za-z]+\s*)+$").unwrap();
     debug!("Animal Database: {:?}", animal_data);
     debug!("Result anticipate duration: {:?}", anticipate_time);
-
-    println!("{}", "--------------------------------".yellow().on_magenta().negative().rapid_blink());
-    println!("{}", "-----Guess the Animal Game------".yellow().on_magenta().negative().rapid_blink());
-    println!("{}", "--------------------------------".yellow().on_magenta().negative().rapid_blink());
-
-
-    loop { // Main game loop
+    // Main game loop
+    loop {
         term_color.reset().unwrap();
+        if score <= 0 {
+            println!("Game Over!");
+            break;
+        }
         guess_count = 0;
         let secret_animal = &animal_data[pick_random_index(animal_data.len())];
-        let result_validator = Regex::new(&(r"^(?i)".to_owned() + &secret_animal.name)).unwrap();
         let mut guess_hint = Vec::new();
         let mut word_len = 0;
         for char_ in secret_animal.name.chars() {
@@ -119,13 +144,16 @@ fn main() {
                 guess_hint.push('-')
             }
         }
+
         println!("{}", "Generate a secret animal name...\n".italic());
         // println!("Pick {} as secret animal", secret_animal.name);
         // Hint
+        // Session game loop
         loop {
             term_color.reset().unwrap();
             let guess_hint_str: String = guess_hint.iter().collect();
             let style_hint = format!("{} [{}]", guess_hint_str, word_len);
+            println!("Score: {}.\n", score);
             if guess_count>0 {
                 println!("Guess count: {} times.\n", guess_count);
             }
@@ -136,34 +164,56 @@ fn main() {
             println!("{}", "Type-in your guess:".blue().on_white().underlined());
 
             println!("{}{}", Colored::Fg(Color::Green), style_hint);
-            let mut guess = String::new();
-            read_console_input(&mut guess);
-            if guess.len() != secret_animal.name.len() {
-                println!("\n{}{}{}\n", Colored::Fg(Color::Red), Attribute::Bold, format!("** Input invalid. Your guess word's length must be {} characters long with spaces! **", secret_animal.name.len()));
-                continue;
+            let mut playerinput = String::new();
+            read_console_input(&mut playerinput);
+            match check_game_command(&playerinput) {
+                GameCommand::Next(next_msg)=> {
+                    println!("{}", next_msg);
+                    score -= 1;
+                    break;
+                }
+                GameCommand::Quit(quit_msg)=> {
+                    println!("{}", quit_msg);
+                    std::process::exit(0);
+                }
+                GameCommand::PlayerInput(player_input)=> {
+                    println!("\nYour guess is {}\n", player_input);
+                }
             }
-            println!("\nYour guess is {}\n", guess);
-            match check_guess(&guess, &result_validator, &input_validator, anticipate_time) {
-                Guess::Right=> {
-                    println!("{}{}*********Congratulation! The secret animal is the {}!*********", Colored::Fg(Color::Blue), Attribute::Bold, secret_animal.name);
+            match check_guess(&playerinput, &secret_animal.name, anticipate_time) {
+                Guess::Right(right_msg)=> {
+                    println!("{}{}*********{}*********", Colored::Fg(Color::Blue), Attribute::Bold, right_msg);
                     println!("\n{}{}{}\n", Colored::Fg(Color::White), Attribute::Bold, "#".repeat(100));
+                    score += MaxGuessCount-guess_count;
                     break;
                 },
-                Guess::Wrong=> {
-                    println!("{}Sorry, You guessed wrong!", Colored::Fg(Color::Blue));
-                    let char_matched: Vec<(usize, char)> = extract_matching_char(&secret_animal.name, &guess);
+                Guess::Wrong(wrong_msg)=> {
+                    println!("{}{}", Colored::Fg(Color::Blue), wrong_msg);
+                    let char_matched: Vec<(usize, char)> = extract_matching_char(&secret_animal.name, &playerinput);
                     // println!("Char Matched: {:?}", char_matched);
+
                     println!("There are {} characters in your guess that match the secret animal!", char_matched.len());
                     for (char_index, match_char) in char_matched {
                         guess_hint[char_index] = match_char
                     }
                     guess_count += 1; // only count guess if guess is valid.
                 },
-                Guess::Invalid=> {
-                    println!("{}{}Input invalid. Your guess word should contain only word with space!", Colored::Fg(Color::Red), Attribute::Bold);
+                Guess::Invalid(invalid_msg)=> {
+                    println!("{}{}{}", Colored::Fg(Color::Red), Attribute::Bold, invalid_msg);
                 }
             }
             println!("\n{}{}{}\n", Colored::Fg(Color::White), Attribute::Bold, "#".repeat(100));
         }
     }
+}
+
+// Main 
+fn main() {
+
+    // Render Game Title
+    println!("{}", "--------------------------------".yellow().on_magenta().negative().rapid_blink());
+    println!("{}", "-----Guess the Animal Game------".yellow().on_magenta().negative().rapid_blink());
+    println!("{}", "--------------------------------".yellow().on_magenta().negative().rapid_blink());
+
+    gameloop();
 }

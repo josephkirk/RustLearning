@@ -60,7 +60,7 @@ async def main():
     results = await asyncio.gather(*tasks)
     filter_results = [animal for animal in results if animal.type]
     # print(filter_results)
-    data_file = Path("animal_datas.json")
+    data_file = Path("src/animal_datas.json")
     if not data_file.exists():
         data_file.touch()
     with data_file.open("r+") as write_file:
