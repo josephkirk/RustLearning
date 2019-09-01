@@ -30,11 +30,29 @@ enum GameCommand {
     Next(String),
     Quit(String),
 }
+
+enum GameMode {
+    Easy
+    Medium
+    Hard
+}
+
+// struct GameController {
+//     PlayerInput: String,
+//     Next: "next",
+//     Quit: "quit",
+// }
 // Define Constant
 // const ONE_SEC: time::Duration = time::Duration::from_secs(1);
 // const TEN_MILIS: time::Duration = time::Duration::from_millis(100);
 
 // Define Struct
+#[derive(Debug)]
+struct GameConfig {
+    mode: GameMode,
+    input: GameCommand,
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 struct Animal {
     name: String,
@@ -67,18 +85,19 @@ fn check_game_command(gameinput: &str) -> GameCommand {
     GameCommand::PlayerInput(gameinput.to_string())
 }
 
-fn check_guess(guess: &str, anwser: &str, thinking_duration: time::Duration) -> Guess {
-    let result_validator = Regex::new(&(r"^(?i)".to_owned() + &anwser)).unwrap();
+fn check_guess(guess: &str, answer: &str, thinking_duration: time::Duration) -> Guess {
+    let result_validator = Regex::new(&(r"^(?i)".to_owned() + &answer)).unwrap();
     let input_validator = Regex::new(r"^([A-Za-z-]+\s*)+$").unwrap();
     thread::sleep(thinking_duration);
-    if guess.len() != anwser.len() {
-        return Guess::Invalid(format!("Input invalid. Your guess word's length must be {} characters long with spaces!", anwser.len()).to_string())
+    if guess.len() != answer.len() {
+        return Guess::Invalid(format!("Input invalid. Your guess word's length must be {} characters long with spaces!", answer.len()).to_string())
     }
     println!(".");
     thread::sleep(thinking_duration);
     if !input_validator.is_match(&guess) {
         return Guess::Invalid("Input invalid. Your guess word should contain only word with space!".to_string())
     }
+    
     println!("..");
     thread::sleep(thinking_duration);
     if !result_validator.is_match(&guess) {
@@ -86,7 +105,7 @@ fn check_guess(guess: &str, anwser: &str, thinking_duration: time::Duration) -> 
     }
     println!("...");
     thread::sleep(thinking_duration);
-    Guess::Right("Congratulation! The secret animal is the {}!".to_string())
+    Guess::Right(format!("Congratulation! The secret animal is the {}!", answer).to_string())
 }
 
 fn extract_matching_char(str1: &str, str2: &str) -> Vec<(usize, char)> {
@@ -158,10 +177,11 @@ fn gameloop() {
                 println!("Guess count: {} times.\n", guess_count);
             }
             println!("{}{}This animal's name has {} characters.", Colored::Fg(Color::Yellow), Attribute::Bold, word_len);
-            println!("It is a {}.", secret_animal.r#type);
+            println!("It belong to {} family.", secret_animal.r#type);
             println!("Its features are: {}.", secret_animal.features);
             println!("What is it?\n");
             println!("{}", "Type-in your guess:".blue().on_white().underlined());
+            println!("{}", "You can type 'next' to skip or 'quit' to end the game.".blue().on_white().underlined());
 
             println!("{}{}", Colored::Fg(Color::Green), style_hint);
             let mut playerinput = String::new();
