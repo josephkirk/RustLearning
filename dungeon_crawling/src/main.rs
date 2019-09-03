@@ -1,3 +1,4 @@
+
 fn main() {
-    println!("Hello, world!");
+    dungeon_crawling::run().expect("Can not run!");
 }
