@@ -8,3 +8,6 @@ edition = "2018"
 
 [dependencies]
 regex = "1"
+nalgebra = "0.18"
+ncollide2d = "0.20"
+nphysics2d = "0.12"
