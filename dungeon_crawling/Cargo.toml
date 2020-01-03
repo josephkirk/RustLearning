@@ -8,3 +8,6 @@ edition = "2018"
 
 [dependencies]
 regex = "1"
+rltk = "0"
+specs = "0"
+specs-derive = "0"
