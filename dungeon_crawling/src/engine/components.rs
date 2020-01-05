@@ -4,19 +4,27 @@ use std::cmp::{max, min};
 
 use crate::{MAX_HEIGHT, MAX_WIDTH};
 
-#[derive(Component)]
-pub struct Position {
+use super::{xy_idx};
+
+#[derive(Component, Debug, PartialEq, Copy, Clone)]
+pub struct IPosition {
     pub x: i32,
     pub y: i32,
 }
 
-impl Position {
+pub struct Position {
+    pub x: f64,
+    pub y: f64,
+
+}
+
+impl IPosition {
     pub fn to_idx(&self) -> usize {
-        super::xy_idx(self.x, self.y)
+        xy_idx(self.x, self.y)
     }
 
     pub fn forecast_idx(&self, x: i32, y: i32) -> usize {
-        super::xy_idx(self.x + x, self.y + y)
+        xy_idx(self.x + x, self.y + y)
     }
 
     pub fn move_relative(&mut self, x: i32, y: i32) {
@@ -26,8 +34,8 @@ impl Position {
 }
 
 /*
-if not using #[derive(Component)] from specs_derive
-impl Component for Position {
+implementation Component if not using #[derive(Component)] from specs_derive
+impl Component for IPosition {
     type Storage = VecStorage<Self>;
 }
 */
@@ -51,7 +59,7 @@ impl Mover {
 }
 
 impl<'a> System<'a> for Mover {
-    type SystemData = (ReadStorage<'a, Mover>, WriteStorage<'a, Position>);
+    type SystemData = (ReadStorage<'a, Mover>, WriteStorage<'a, IPosition>);
     fn run(&mut self, (mover, mut pos): Self::SystemData) {
         for (mover, pos) in (&mover, &mut pos).join() {
             pos.x -= mover.speed;

@@ -14,7 +14,9 @@
             "presentation": {
                 "reveal": "silent"
             },
-            "problemMatcher": []
+            "problemMatcher": [
+                "$rustc"
+            ],
         },
         {
             "label": "build release",
@@ -28,21 +30,45 @@
             "presentation": {
                 "reveal": "silent"
             },
-            "problemMatcher": []
+            "problemMatcher": [
+                "$rustc"
+            ],
         },
         {
             "label": "run",
-            "type": "shell",
-            "command": "cargo",
-            "args": [
-                "run",
-                "--release"
-            ],
+            "type": "cargo",
+            "subcommand": "run",
             "group": "build",
             "presentation": {
                 "reveal": "silent"
             },
-            "problemMatcher": []
+            "problemMatcher": [
+                "$rustc"
+            ],
+        },
+        {
+            "label": "run release",
+            "type": "cargo",
+            "subcommand": "run --release",
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": [
+                "$rustc"
+            ],
+        },
+        {
+            "label": "test",
+            "type": "cargo",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "subcommand": "test",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "test"
         }
     ]
 }

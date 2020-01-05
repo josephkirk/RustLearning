@@ -1,6 +1,8 @@
 use rltk::{Console, GameState, Rltk, VirtualKeyCode, RGB};
 use specs::prelude::*;
 
+use super::{Map, IPosition, Player, Renderable, Mover, TileType};
+
 pub struct GameMode<'a> {
     pub game_world: &'a mut World,
 }
@@ -10,34 +12,35 @@ impl<'a> GameMode<'a> {
         GameMode { game_world: world }
     }
 
-    pub fn initalize_map(&mut self, hole_amount: i32) {
+    pub fn initalize_map(&mut self, map: Map) {
         self.game_world
-            .insert(super::Map::new(hole_amount).to_vec());
+            .insert(map.to_vec());
     }
 
     pub fn spawn_player(&mut self, x: i32, y: i32) {
+        info!(target: "Game", "Spawn new player at <{}, {}>", x, y);
         self.game_world
             .create_entity()
-            .with(super::Position { x, y })
-            .with(super::Renderable {
+            .with(IPosition { x, y })
+            .with(Renderable {
                 glyph: rltk::to_cp437('Ω'),
                 fg: RGB::named(rltk::YELLOW),
                 bg: RGB::named(rltk::BLACK),
             })
-            .with(super::Player {})
+            .with(Player {})
             .build();
     }
 
     pub fn spawn_enemy(&mut self, x: i32, y: i32) {
         self.game_world
             .create_entity()
-            .with(super::Position { x, y })
-            .with(super::Renderable {
+            .with(IPosition { x, y })
+            .with(Renderable {
                 glyph: rltk::to_cp437('Ö'),
                 fg: RGB::named(rltk::RED),
                 bg: RGB::named(rltk::BLACK),
             })
-            .with(super::Mover { speed: -1 })
+            .with(Mover { speed: -1 })
             .build();
     }
 
@@ -53,18 +56,22 @@ pub struct State {
 }
 
 pub fn try_move_player(delta_x: i32, delta_y: i32, ecs: &mut World) {
-    let mut positions = ecs.write_storage::<super::Position>();
-    let mut players = ecs.write_storage::<super::Player>();
-    let map = ecs.fetch::<Vec<super::TileType>>();
+    let mut positions = ecs.write_storage::<IPosition>();
+    let mut players = ecs.write_storage::<Player>();
+    let map = ecs.fetch::<Vec<TileType>>();
 
-    for (_player, pos) in (&mut players, &mut positions).join() {
+    for (player, pos) in (&mut players, &mut positions).join() {
         let destination_idx = pos.forecast_idx(delta_x, delta_y);
         // pos.move_relative(x, y);
+        // debug!(target: "Game", "Attemp to move Player {:?} to <{}, {}>", player, delta_x, delta_y);
         match map[destination_idx] {
-            super::TileType::Floor => {
+            TileType::Floor => {
                 pos.move_relative(delta_x, delta_y);
+                debug!(target: "Game", "move Player {:?} to <{}, {}>", player, pos.x, pos.y);
             }
-            _ => {}
+            _ => {
+                debug!(target: "Game", "Collision at <{}, {}>", pos.x+delta_x, pos.y+delta_y);
+            }
         }
     }
 }
@@ -85,7 +92,7 @@ impl State {
     }
 
     pub fn run_systems(&mut self) {
-        let mut mover = super::Mover::init();
+        let mut mover = Mover::init();
         mover.run_now(&self.ecs);
         self.ecs.maintain();
     }
@@ -94,16 +101,15 @@ impl State {
 impl GameState for State {
     fn tick(&mut self, ctx: &mut Rltk) {
         ctx.cls();
-
-        let map = super::Map(self.ecs.fetch::<Vec<super::TileType>>().to_vec());
+        let map = Map(self.ecs.fetch::<Vec<TileType>>().to_vec());
         map.draw(ctx);
 
         self.player_input(ctx);
 
         self.run_systems();
 
-        let positions = self.ecs.read_storage::<super::Position>();
-        let renderables = self.ecs.read_storage::<super::Renderable>();
+        let positions = self.ecs.read_storage::<IPosition>();
+        let renderables = self.ecs.read_storage::<Renderable>();
 
         for (pos, render) in (&positions, &renderables).join() {
             ctx.set(pos.x, pos.y, render.fg, render.bg, render.glyph);
