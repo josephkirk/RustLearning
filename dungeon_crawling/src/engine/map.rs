@@ -7,17 +7,27 @@ use std::ops::{Deref, DerefMut};
 use crate::{HALF_HEIGHT, HALF_WIDTH, MAX_HEIGHT, MAX_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH};
 
 #[allow(unused)]
-use super::{xy_idx, IRect, IPosition};
+use super::{xy_idx, IPosition, IRect};
 
-pub static MAP_RECT : IRect = IRect{ x_min: 0, y_min: 0, x_max: MAX_WIDTH, y_max: MAX_HEIGHT };
-pub static INNERMAP_RECT : IRect = IRect{ x_min: 1, y_min: 1, x_max: MAX_WIDTH-1, y_max: MAX_HEIGHT-1 };
+pub static MAP_RECT: IRect = IRect {
+    x_min: 0,
+    y_min: 0,
+    x_max: MAX_WIDTH,
+    y_max: MAX_HEIGHT,
+};
+pub static INNERMAP_RECT: IRect = IRect {
+    x_min: 1,
+    y_min: 1,
+    x_max: MAX_WIDTH - 1,
+    y_max: MAX_HEIGHT - 1,
+};
 
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub enum TileType {
     Wall,
     Floor,
     Hole,
-    Door
+    Door,
 }
 
 // #[derive(PartialEq, Copy, Clone)]
@@ -67,17 +77,24 @@ impl Map {
     pub fn generate_random_map() -> Map {
         info!(target: "Game", "Generate Random Level");
         let mut map = Map::new();
-        
+
         //map.add_room_from_pos_center(&IPosition{x: HALF_WIDTH, y: HALF_HEIGHT}, 4, 4);
         // let mut room1 = IRect{x_min: HALF_WIDTH-2, y_min: HALF_WIDTH-2, x_max: HALF_WIDTH+2, y_max: HALF_WIDTH+2};
         let mut rng = rltk::RandomNumberGenerator::new();
         let mut rooms = Vec::new();
-        let room1 = map.add_room_from_pos_center(&IPosition{x:HALF_WIDTH, y:HALF_HEIGHT}, 6, 6);
+        let room1 = map.add_room_from_pos_center(
+            &IPosition {
+                x: HALF_WIDTH,
+                y: HALF_HEIGHT,
+            },
+            6,
+            6,
+        );
         rooms.push(room1);
-        for _i in 0..10000{
+        for _i in 0..10000 {
             let x = rng.roll_dice(1, MAX_WIDTH);
             let y = rng.roll_dice(1, MAX_HEIGHT);
-            let random_pos = IPosition{x, y};
+            let random_pos = IPosition { x, y };
             let mut random_room = IRect::new_from_center_position(&random_pos, 6, 6);
             random_room.constraint_to(&INNERMAP_RECT);
             debug!(target: "Game", "Attemp Adding <6x6> Room at <{}, {}>", random_pos.x, random_pos.y);
@@ -87,7 +104,7 @@ impl Map {
                     is_intersect = true;
                     debug!(target: "Game", "Intersecting with {:?}.Abort", room);
                     break;
-                }    
+                }
             }
             if is_intersect {
                 continue;
@@ -100,7 +117,7 @@ impl Map {
 
     pub fn clear(&mut self) {
         for (x, y) in MAP_RECT.iter(1) {
-            self.set_wall(&IPosition{ x, y});
+            self.set_wall(&IPosition { x, y });
         }
     }
 
@@ -119,7 +136,7 @@ impl Map {
         debug!(target: "Game", "Add <{}x{}> Room with bounding {:?}", rect.width(), rect.height(), rect);
 
         for (x, y) in rect.iter(1) {
-            self.set_floor(&IPosition{x, y});
+            self.set_floor(&IPosition { x, y });
         }
     }
 
@@ -144,32 +161,35 @@ impl Map {
         self.set_tile(pos, TileType::Wall);
     }
 
-
     pub fn draw(&self, ctx: &mut Rltk) {
         let mut y = 0;
         let mut x = 0;
         for tile in self.iter() {
             match tile {
                 TileType::Floor => ctx.set(
-                    x, y,
+                    x,
+                    y,
                     RGB::from_f32(0.1, 0.1, 0.1),
                     RGB::from_f32(0., 0., 0.),
                     rltk::to_cp437('≡'),
                 ),
                 TileType::Wall => ctx.set(
-                    x, y,
+                    x,
+                    y,
                     RGB::from_f32(0.25, 0.25, 0.5),
                     RGB::from_f32(0., 0., 0.),
                     rltk::to_cp437('█'),
                 ),
                 TileType::Hole => ctx.set(
-                    x, y,
+                    x,
+                    y,
                     RGB::from_f32(0., 0., 0.),
                     RGB::from_f32(0., 0., 0.),
                     rltk::to_cp437('■'),
                 ),
                 TileType::Door => ctx.set(
-                    x, y,
+                    x,
+                    y,
                     RGB::from_f32(0., 0.5, 0.6),
                     RGB::from_f32(0., 0., 0.),
                     rltk::to_cp437('∩'),

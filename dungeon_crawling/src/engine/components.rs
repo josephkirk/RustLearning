@@ -4,7 +4,7 @@ use std::cmp::{max, min};
 
 use crate::{MAX_HEIGHT, MAX_WIDTH};
 
-use super::{xy_idx};
+use super::xy_idx;
 
 #[derive(Component, Debug, PartialEq, Copy, Clone)]
 pub struct IPosition {
@@ -15,7 +15,6 @@ pub struct IPosition {
 pub struct Position {
     pub x: f64,
     pub y: f64,
-
 }
 
 impl IPosition {

@@ -1,7 +1,7 @@
 use rltk::{Console, GameState, Rltk, VirtualKeyCode, RGB};
 use specs::prelude::*;
 
-use super::{Map, IPosition, Player, Renderable, Mover, TileType};
+use super::{IPosition, Map, Mover, Player, Renderable, TileType};
 
 pub struct GameMode<'a> {
     pub game_world: &'a mut World,
@@ -13,8 +13,7 @@ impl<'a> GameMode<'a> {
     }
 
     pub fn initalize_map(&mut self, map: Map) {
-        self.game_world
-            .insert(map.to_vec());
+        self.game_world.insert(map.to_vec());
     }
 
     pub fn spawn_player(&mut self, x: i32, y: i32) {

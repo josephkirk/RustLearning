@@ -1,4 +1,4 @@
-use log::{SetLoggerError, Level, LevelFilter, Metadata, Record};
+use log::{Level, LevelFilter, Metadata, Record, SetLoggerError};
 
 #[macro_use]
 extern crate specs_derive;
@@ -28,7 +28,12 @@ impl log::Log for SimpleLogger {
 
     fn log(&self, record: &Record) {
         if self.enabled(record.metadata()) {
-            println!("{}::{}:: {}", record.level(), record.target(), record.args());
+            println!(
+                "{}::{}:: {}",
+                record.level(),
+                record.target(),
+                record.args()
+            );
         }
     }
 
@@ -38,8 +43,7 @@ impl log::Log for SimpleLogger {
 pub static LOGGER: SimpleLogger = SimpleLogger;
 
 pub fn init_logger() -> Result<(), SetLoggerError> {
-    log::set_boxed_logger(Box::new(SimpleLogger))
-        .map(|()| log::set_max_level(LevelFilter::Debug))
+    log::set_boxed_logger(Box::new(SimpleLogger)).map(|()| log::set_max_level(LevelFilter::Debug))
 }
 
 fn main() -> Result<(), SetLoggerError> {

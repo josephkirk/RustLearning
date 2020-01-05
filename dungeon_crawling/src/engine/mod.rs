@@ -27,9 +27,8 @@ pub fn start(window_width: u32, window_height: u32, window_title: &str) {
     info!(target: "Game", "Initialize Game State");
     let mut gs = State { ecs: World::new() };
 
-
     info!(target: "Game", "Register Game Components");
-    gs.ecs.register::<IPosition>(); 
+    gs.ecs.register::<IPosition>();
     gs.ecs.register::<Renderable>();
     gs.ecs.register::<Mover>();
     gs.ecs.register::<Player>();
@@ -44,7 +43,7 @@ pub fn start(window_width: u32, window_height: u32, window_title: &str) {
     gm.initalize_map(level);
 
     info!(target: "Game", "Spawn Player");
-    gm.spawn_player(window_width as i32 /2, window_height as i32/2);
+    gm.spawn_player(window_width as i32 / 2, window_height as i32 / 2);
 
     // gm.spawn_enemies( 10 );
 
