@@ -39,11 +39,13 @@ pub fn start(window_width: u32, window_height: u32, window_title: &str) {
     };
 
     info!(target: "Game", "Setup Level");
-    let level = Map::generate_random_map();
+    let mut level = Map::new(window_width as i32, window_height as i32);
+    level.generate_random_map();
+    let spawn_position = level.rooms[0].center();
     gm.initalize_map(level);
 
     info!(target: "Game", "Spawn Player");
-    gm.spawn_player(window_width as i32 / 2, window_height as i32 / 2);
+    gm.spawn_player(spawn_position.x, spawn_position.y);
 
     // gm.spawn_enemies( 10 );
 

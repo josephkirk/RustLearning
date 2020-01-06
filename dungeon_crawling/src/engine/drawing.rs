@@ -50,7 +50,15 @@ impl Iterator for IRectIter {
 }
 
 impl IRect {
-    pub fn new() -> IRect {
+    pub fn new(x_min:i32, y_min:i32, x_max:i32, y_max:i32) ->IRect {
+        IRect {
+            x_min,
+            y_min,
+            x_max,
+            y_max,
+        }
+    }
+    pub fn unit() -> IRect {
         IRect {
             x_min: 0,
             y_min: 0,
@@ -79,13 +87,13 @@ impl IRect {
     }
 
     pub fn height(&self) -> i32 {
-        self.x_max - self.x_min
+        self.y_max - self.y_min
     }
 
     pub fn center(&self) -> IPosition {
         IPosition {
-            x: (self.width() as f64 / 2.0).round() as i32,
-            y: (self.height() as f64 / 2.0).round() as i32,
+            x: self.x_min + (self.width() as f64 / 2.0).round() as i32,
+            y: self.y_min + (self.height() as f64 / 2.0).round() as i32,
         }
     }
 
@@ -136,11 +144,26 @@ impl IRect {
         }
     }
 
+    pub fn expand_shrink(&mut self, value:i32) {
+        self.x_min -= value;
+        self.y_min -= value;
+        self.y_max += value;
+        self.x_max += value;
+    }
+
+    pub fn expand_shrink_as(&self, value:i32) ->IRect {
+        let x_min = self.x_min - value;
+        let y_min = self.y_min - value;
+        let x_max = self.x_max + value;
+        let y_max = self.y_max + value;
+        IRect {x_min, y_min, x_max, y_max}
+    }
+
     pub fn is_intersect(&self, rect: &IRect) -> bool {
-        (rect.x_min <= self.x_min && self.x_min <= rect.x_max)
-            || (rect.y_min <= self.y_min && self.y_min <= rect.y_max)
-            || (rect.x_min <= self.x_max && self.x_max <= rect.x_max)
-            || (rect.y_min <= self.y_max && self.y_max <= rect.y_max)
+        self.x_min <= rect.x_max
+            && self.x_max >= rect.x_min
+            && self.y_min <= rect.y_max
+            && self.y_max >= rect.y_min
     }
 
     pub fn is_inside(&self, rect: &IRect) -> bool {
@@ -165,8 +188,8 @@ struct IEclipse {
 }
 
 impl IEclipse {
-    pub fn new() -> IEclipse {
-        IEclipse { rect: IRect::new() }
+    pub fn unit() -> IEclipse {
+        IEclipse { rect: IRect::unit() }
     }
 }
 
@@ -176,8 +199,8 @@ struct ITriangle {
 }
 
 impl ITriangle {
-    pub fn new() -> IEclipse {
-        IEclipse { rect: IRect::new() }
+    pub fn unit() -> IEclipse {
+        IEclipse { rect: IRect::unit() }
     }
 }
 

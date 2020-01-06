@@ -13,7 +13,7 @@ impl<'a> GameMode<'a> {
     }
 
     pub fn initalize_map(&mut self, map: Map) {
-        self.game_world.insert(map.to_vec());
+        self.game_world.insert(map);
     }
 
     pub fn spawn_player(&mut self, x: i32, y: i32) {
@@ -57,13 +57,13 @@ pub struct State {
 pub fn try_move_player(delta_x: i32, delta_y: i32, ecs: &mut World) {
     let mut positions = ecs.write_storage::<IPosition>();
     let mut players = ecs.write_storage::<Player>();
-    let map = ecs.fetch::<Vec<TileType>>();
+    let map = ecs.fetch::<Map>();
 
     for (player, pos) in (&mut players, &mut positions).join() {
         let destination_idx = pos.forecast_idx(delta_x, delta_y);
         // pos.move_relative(x, y);
         // debug!(target: "Game", "Attemp to move Player {:?} to <{}, {}>", player, delta_x, delta_y);
-        match map[destination_idx] {
+        match map.data[destination_idx] {
             TileType::Floor => {
                 pos.move_relative(delta_x, delta_y);
                 debug!(target: "Game", "move Player {:?} to <{}, {}>", player, pos.x, pos.y);
@@ -100,16 +100,17 @@ impl State {
 impl GameState for State {
     fn tick(&mut self, ctx: &mut Rltk) {
         ctx.cls();
-        let map = Map(self.ecs.fetch::<Vec<TileType>>().to_vec());
-        map.draw(ctx);
 
+        // debug!("{}", map);
         self.player_input(ctx);
 
         self.run_systems();
+        let map = self.ecs.fetch::<Map>();
+        map.draw(ctx);
 
         let positions = self.ecs.read_storage::<IPosition>();
         let renderables = self.ecs.read_storage::<Renderable>();
-
+        // self.ecs.insert(map);
         for (pos, render) in (&positions, &renderables).join() {
             ctx.set(pos.x, pos.y, render.fg, render.bg, render.glyph);
         }
