@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "guess_word_game"
+		},
+		{
+			"path": "dungeon_crawling"
 		}
 	],
 	"settings": {}

@@ -1,4 +1,8 @@
 /target
+<<<<<<< HEAD
 **/*.rs.bk
 */image_resources
 */target/*
+=======
+**/*.rs.bk
+>>>>>>> 491510ddc07f41dd1cea41d94ec4deef9f5a7d57
