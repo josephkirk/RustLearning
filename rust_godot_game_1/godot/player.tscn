@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cexdjk2vljeuo"]
+
+[ext_resource type="Texture2D" uid="uid://o67w8lwum4kh" path="res://assets/textures/Animals/monkey.png" id="1_1rnps"]
+
+[node name="Player" type="Player"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_1rnps")

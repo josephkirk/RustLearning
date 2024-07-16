@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://80sqiw20x1pp"]
+
+[ext_resource type="PackedScene" uid="uid://cexdjk2vljeuo" path="res://player.tscn" id="1_kvbcp"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_348jq"]
+
+[node name="World" type="HecsWorld"]
+
+[node name="Player" parent="." instance=ExtResource("1_kvbcp")]
+position = Vector2(496, 308)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Marker3D" type="Marker3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.822521, 0.568734, 0, -0.568734, 0.822521, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Node3D/Marker3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.99561)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+mesh = SubResource("BoxMesh_348jq")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Node3D"]
