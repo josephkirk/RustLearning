@@ -118,9 +118,9 @@ fn find_least_conflict(
 
         let conflicts = check_conflicts(x, y);
         if conflicts > 0 {
-            let mut best_type: i32;
+            let mut best_type: MapCellType;
             let mut least_conflicts: i32 = 100;
-            let (mut temp_terrain, mut temp_conflicts) = (0,0);
+            let (mut temp_terrain, mut temp_conflicts) = (MapCellType::Undeclared,0);
             for j in (0..ITERATION) {
                 temp_terrain = 1 + rand::thread_rng().gen_range(0..(get_cell_num_type()-1));
                 temp_conflicts = check_conflicts(x, y);
@@ -129,7 +129,10 @@ fn find_least_conflict(
                     least_conflicts = temp_conflicts;
                 }
             };
-            map.cells[&cell_hash] = best_type;
+            if let Ok(mut selected_cell) = query.get_mut(cell_entity) {
+                selected_cell.value = best_type;
+                
+            }
         }
     }
     success
