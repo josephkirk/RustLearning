@@ -11,7 +11,6 @@ const CELLSIZE:i32 = 5;
 const ITERATION:i32 = 8;
 const NCELLSEARCHRANGE: usize = 3;
 const MAPCELLTYPES:usize = 8;
-const MAXMAPGENITERATION: i32 = 20;
 const MAPWIDTH:i32 = 800;
 const MAPHEIGHT:i32 = 1000;
 
@@ -227,16 +226,12 @@ fn check_conflicts(
     conflicts
 }
 
-// TODO: refactor this function into background task call to prevent game freeze
+// TODO: refactor this function into background task call to prevent
 #[allow(unused_assignments)]
 fn find_least_cell_conflict(
     map: &mut Map,
 ){
-    if map.iteration >= MAXMAPGENITERATION {
-        info!("MAPGEN:: Map generation finished !\n");
-        map.is_generated = true;
-        return
-    }
+    let mut conflict_count = 0;
     for _ in 0..map.cells.len()
     {
         let x = rand::thread_rng().gen_range(0..map.width);
@@ -253,12 +248,13 @@ fn find_least_cell_conflict(
         
             if conflicts > 0 || selected_cell.value == MapCellType::Undeclared
             {
+                conflict_count += 1;
                 let mut best_type = MapCellType::Undeclared;
                 let mut least_conflicts: i32 = 100;
                 let mut temp_terrain = MapCellType::Undeclared;
                 let mut temp_conflicts: i32 = 0;
                 for _ in 0..tries {
-                    let temp_terrain_num = 1 + rand::thread_rng().gen_range(0..get_cell_num_type()-1);
+                    let temp_terrain_num = rand::thread_rng().gen_range(1..get_cell_num_type());
                     temp_terrain = MapCellType::from_repr(temp_terrain_num as usize).unwrap_or_default();
                     selected_cell.value = temp_terrain;
                     temp_conflicts = check_conflicts(&selected_cell, &map) as i32;
@@ -273,10 +269,17 @@ fn find_least_cell_conflict(
                     target_cell.value = best_type
                 }
                 debug!(":: found best type {:?}\n", selected_cell.value);
-            }
+            } 
         }
     }
-    map.iteration += 1;
+    if conflict_count > 0
+    {
+        map.iteration += 1;
+    } else {
+        map.is_generated = true;
+        info!("MAPGEN:: Map generation finished after {} iteration!\n", map.iteration);
+    }
+    debug!("MAPGEN:: Current Iteration {} current conflict count {}", map.iteration, conflict_count)
 }
 
 fn re_update_map(
