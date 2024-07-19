@@ -110,42 +110,9 @@ struct Map {
     is_generated: bool,
     iteration: i32,
     conflicts_count: i32,
-    gen_map_system_id: SystemId,
 }
 
 fn main() {
-    App::new()
-        .add_plugins(
-            DefaultPlugins.set(WindowPlugin{
-                               primary_window:Some(
-                                    Window{
-                                        title:"Procedural Test".into(),
-                                        name:Some("proceduralapp".into()),
-                                        resolution:(MAPWIDTH as f32,MAPHEIGHT as f32).into(),
-                                        ..default()
-                                    }),
-                                ..default()})
-                           .set(LogPlugin{
-                               filter:"info,wgpu_core=warn,wgpu_hal=warn,mygame=debug".into(),
-                               level: bevy::log::Level::DEBUG,..default()
-                            }))
-        .add_systems(Startup, (
-            setup,
-            setup_map
-        ).chain())
-        .add_systems(Update, (
-            gen_map_chunk.run_if(check_is_map_generating),
-            update_map_gen_status,
-            apply_map_cell_value.run_if(is_map_generated),
-            re_update_map
-        ).chain())
-        .insert_resource(Time::<Fixed>::from_seconds(0.5))
-        .run();
-}
-
-fn setup(
-    world: &mut World
-) {
     let (width, height) = (MAPWIDTH, MAPHEIGHT);
     let world_width = width / CELLSIZE;
     let world_height = height / CELLSIZE;
@@ -168,14 +135,37 @@ fn setup(
             };
             _cells
         },
-        gen_map_system_id: world.register_system(gen_map_chunk),
         is_generated: false,
         iteration: 0,
         conflicts_count: 0
     };
-    world.insert_resource(map);
-    world.run_system_once(gen_map_chunk);
-    
+    App::new()
+        .insert_resource(map)
+        .add_plugins(
+            DefaultPlugins.set(WindowPlugin{
+                               primary_window:Some(
+                                    Window{
+                                        title:"Procedural Test".into(),
+                                        name:Some("proceduralapp".into()),
+                                        resolution:(MAPWIDTH as f32,MAPHEIGHT as f32).into(),
+                                        ..default()
+                                    }),
+                                ..default()})
+                           .set(LogPlugin{
+                               filter:"info,wgpu_core=warn,wgpu_hal=warn,mygame=debug".into(),
+                               level: bevy::log::Level::DEBUG,..default()
+                            }))
+        .add_systems(Startup, (
+            setup_map
+        ).chain())
+        // .add_systems(Update, (
+        //     gen_map_chunk.run_if(check_is_map_generating),
+        //     update_map_gen_status,
+        //     apply_map_cell_value.run_if(is_map_generated),
+        //     re_update_map
+        // ).chain())
+        .insert_resource(Time::<Fixed>::from_seconds(0.5))
+        .run();
 }
 
 fn setup_map(
@@ -440,7 +430,6 @@ fn re_update_map(
                 };
                 _cells
             };
-            commands.run_system(map.gen_map_system_id);
             info!("MAPGEN:: Regenerating Map ...")
         }
     }
