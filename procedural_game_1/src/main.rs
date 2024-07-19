@@ -1,6 +1,7 @@
 // source: https://www.youtube.com/watch?v=gKNJKce1p8M
 
 use bevy::{
+    color::palettes::basic::*,
     prelude::{Srgba, *},
     sprite::MaterialMesh2dBundle
 };
@@ -149,8 +150,8 @@ fn setup_map(
             material: materials.add(color),
             transform: Transform::from_xyz(
                 // Distribute shapes from -X_EXTENT/2 to +X_EXTENT/2.
-                (cell.x+CELLSIZE as i32) as f32,
-                (cell.y+CELLSIZE as i32) as f32,
+                (cell.x+CELLSIZE+ 1 as i32) as f32,
+                (cell.y+CELLSIZE+ 1 as i32) as f32,
                 0.0,
             ),
             ..default()
@@ -164,11 +165,14 @@ fn update_map(
     mut map: ResMut<Map>,
 ) {
     for(cell_component , material_handle) in query.iter() {
-        let cell = map.cells[&cell_component.0];
+        let cell_hash = &cell_component.0;
+        let cell = map.cells[cell_hash];
         let cell_type = cell.value;
+        let cell_color = cell_type.color();
         if let Some(material) = materials.get_mut(material_handle)
         {
-            material.color = cell_type.color();
+            material.color = cell_color;
+            print!("update {cell_hash} color to {:?}\n", cell_color);
         }
     }
     find_least_cell_conflict(&mut map);
@@ -217,7 +221,7 @@ fn find_least_cell_conflict(
         print!("find least conflict for {cell_hash} ");
         if map.cells.contains_key(&cell_hash)
         {
-            let mut selected_cell = map.cells[&cell_hash];
+            let selected_cell = map.cells[&cell_hash];
             
             let conflicts = check_conflicts(&selected_cell, &map);
             if conflicts > 0 || selected_cell.value == MapCellType::Undeclared
@@ -236,8 +240,11 @@ fn find_least_cell_conflict(
                         least_conflicts = temp_conflicts;
                     }
                 };
-                selected_cell.value = best_type;
-                print!(":: found best type {:?}\n", best_type);
+                if let Some(target_cell) = map.cells.get_mut(&cell_hash)
+                {
+                    target_cell.value = best_type
+                }
+                print!(":: found best type {:?}\n", selected_cell.value);
             }
         }
     }
