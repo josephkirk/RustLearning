@@ -2,7 +2,7 @@
 // follow instruction from source: https://www.youtube.com/watch?v=gKNJKce1p8M
 
 use bevy::{
-    log::LogPlugin, prelude::{Srgba, *}, sprite::MaterialMesh2dBundle
+    ecs::{system::{RunSystemOnce, SystemId}, world::CommandQueue}, log::LogPlugin, prelude::{Srgba, *}, sprite::MaterialMesh2dBundle, tasks::{block_on, futures_lite::future, AsyncComputeTaskPool, Task}
 };
 use rand::prelude::*;
 use std::collections::HashMap;
@@ -21,6 +21,18 @@ struct Cell {
     x: i32,
     y: i32,
     value: MapCellType,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Eq, Copy)]
+struct CellChunk {
+    cell: Cell,
+    conflicts_count: i32
+}
+
+impl Cell {
+    fn hash(&self) -> String {
+        hash_coord(self.x, self.y)
+    }
 }
 
 #[derive(Component)]
@@ -86,13 +98,19 @@ impl MapCellType {
     }
 }
 
-#[derive(Resource, Default, Clone)]
+#[derive(Component)]
+struct ComputeMapChunkTask(Task<CellChunk>);
+
+
+#[derive(Resource, Clone)]
 struct Map {
     width: i32,
     height: i32,
     cells: HashMap<String, Cell>,
     is_generated: bool,
-    iteration: i32
+    iteration: i32,
+    conflicts_count: i32,
+    gen_map_system_id: SystemId,
 }
 
 fn main() {
@@ -116,7 +134,9 @@ fn main() {
             setup_map
         ).chain())
         .add_systems(Update, (
-            update_map.run_if(is_map_generated),
+            gen_map_chunk.run_if(check_is_map_generating),
+            update_map_gen_status,
+            apply_map_cell_value.run_if(is_map_generated),
             re_update_map
         ).chain())
         .insert_resource(Time::<Fixed>::from_seconds(0.5))
@@ -148,9 +168,13 @@ fn setup(
             };
             _cells
         },
-        ..default()
+        gen_map_system_id: world.register_system(gen_map_chunk),
+        is_generated: false,
+        iteration: 0,
+        conflicts_count: 0
     };
     world.insert_resource(map);
+    world.run_system_once(gen_map_chunk);
     
 }
 
@@ -197,13 +221,35 @@ fn update_map(
             debug!("MAPGEN:: update {cell_hash} color to {:?}\n", cell_color);
         }
     }
-    find_least_cell_conflict(&mut map);
+    // find_least_cell_conflict(&mut map);
 }
 
 fn is_map_generated(
     map: Res<Map>
 )-> bool {
     !map.is_generated
+}
+
+fn check_is_map_generating(
+    tasks: Query<(Entity, &ComputeMapChunkTask)>
+) -> bool {
+    !(tasks.iter().count() > 0)
+}
+
+fn update_map_gen_status(
+    mut map: ResMut<Map>
+) {
+    if !map.is_generated
+    {
+        if map.conflicts_count > 0
+        {
+            map.iteration += 1;
+            info!("MAPGEN:: Map iteration {}!\n", map.iteration);
+        } else {
+            map.is_generated = true;
+            info!("MAPGEN:: Map generation finished after {} iteration!\n", map.iteration);
+        }
+    }
 }
 
 fn check_conflicts(
@@ -225,6 +271,91 @@ fn check_conflicts(
         }
     }
     conflicts
+}
+
+fn gen_map_chunk (
+    mut commands: Commands,
+    mut cells: Query<(Entity, &CellComponent)>,
+    mut map: ResMut<Map>
+) {
+    map.conflicts_count = 0;
+    for (entity, cell_comp) in &mut cells {
+        let x = rand::thread_rng().gen_range(0..map.width);
+        let y = rand::thread_rng().gen_range(0..map.height);
+        let cell_hash = hash_coord(x, y);
+        if map.cells.contains_key(&cell_hash)
+        {
+            spawn_gen_map_chunk_task(&mut commands, entity, &map, cell_hash);
+        }
+    }
+}
+
+fn spawn_gen_map_chunk_task(
+    commands: &mut Commands,
+    target: Entity,
+    map: &Map,
+    cell_hash: String
+){
+    let thread_pool = AsyncComputeTaskPool::get();
+    let map = Box::new(map.clone());
+    let tries = ITERATION;
+    let mut conflict_count = 0;
+    let task = thread_pool.spawn(async move {
+        let mut selected_cell = map.cells[&cell_hash];
+        let conflicts: i32 = check_conflicts(&selected_cell, &map) as i32;
+        let mut best_type = MapCellType::Undeclared;
+        let mut least_conflicts: i32 = 100;
+        let mut temp_terrain = MapCellType::Undeclared;
+        let mut temp_conflicts: i32 = 0;
+        if conflicts > 0 || selected_cell.value == MapCellType::Undeclared
+        {
+            conflict_count += 1;
+            
+            for _ in 0..tries {
+                let temp_terrain_num = rand::thread_rng().gen_range(1..get_cell_num_type());
+                temp_terrain = MapCellType::from_repr(temp_terrain_num as usize).unwrap_or_default();
+                selected_cell.value = temp_terrain;
+                temp_conflicts = check_conflicts(&selected_cell, &map) as i32;
+                if temp_conflicts < least_conflicts 
+                {
+                    best_type = temp_terrain;
+                    least_conflicts = temp_conflicts;
+                }
+            };
+            selected_cell.value = best_type
+        } 
+        CellChunk {
+            cell: selected_cell,
+            conflicts_count: conflict_count
+        }
+    });
+    commands.entity(target).insert(ComputeMapChunkTask(task));
+}
+
+fn apply_map_cell_value(
+    mut commands: Commands,
+    mut materials: ResMut<Assets<ColorMaterial>>,
+    mut map: ResMut<Map>,
+    mut tasks: Query<(Entity, &mut ComputeMapChunkTask, &Handle<ColorMaterial>, &CellComponent)>
+) {
+    map.conflicts_count = 0;
+    for (task_entity, mut task, material_handle, cell_component) in &mut tasks {
+        if let Some(result) = block_on(future::poll_once(&mut task.0)) {
+            commands.entity(task_entity).remove::<ComputeMapChunkTask>();
+            let cell_hash = result.cell.hash();
+            if let Some(target_cell) = map.cells.get_mut(&cell_hash)
+            {
+                target_cell.value = result.cell.value;
+            }
+            if let Some(material) = materials.get_mut(material_handle)
+            {
+                material.color = result.cell.value.color();
+                info!("MAPGEN:: update {cell_hash} color to {:?}\n", result.cell.value.color());
+            }
+            map.conflicts_count += result.conflicts_count;
+        }
+    }
+
 }
 
 // TODO: refactor this function into background task call to prevent
@@ -284,6 +415,7 @@ fn find_least_cell_conflict(
 }
 
 fn re_update_map(
+    mut commands: Commands,
     buttons: Res<ButtonInput<MouseButton>>,
     mut map: ResMut<Map>
 ) {
@@ -308,6 +440,7 @@ fn re_update_map(
                 };
                 _cells
             };
+            commands.run_system(map.gen_map_system_id);
             info!("MAPGEN:: Regenerating Map ...")
         }
     }
