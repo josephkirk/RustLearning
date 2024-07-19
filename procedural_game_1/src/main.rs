@@ -1,7 +1,7 @@
 // source: https://www.youtube.com/watch?v=gKNJKce1p8M
 
 use bevy::{
-    color::palettes::basic::*, log::LogPlugin, prelude::{Srgba, *}, sprite::MaterialMesh2dBundle
+    log::LogPlugin, prelude::{Srgba, *}, sprite::MaterialMesh2dBundle
 };
 use rand::prelude::*;
 use std::collections::HashMap;
@@ -10,8 +10,8 @@ use strum::FromRepr;
 const CELLSIZE:i32 = 5;
 const ITERATION:i32 = 8;
 const NCELLSEARCHRANGE: usize = 3;
-const MAPCELLTYPES:usize = 7;
-const MAXMAPGENITERATION: i32 = 100;
+const MAPCELLTYPES:usize = 8;
+const MAXMAPGENITERATION: i32 = 20;
 const MAPWIDTH:i32 = 800;
 const MAPHEIGHT:i32 = 1000;
 
@@ -37,19 +37,21 @@ enum MapCellType {
     Moutains,
     Forest,
     Plains,
+    Sand,
     Water,
     DeepWater,
     HighMountains
 }
 
 const MAPCELLCONFLICTTABLE: [[usize;MAPCELLTYPES];MAPCELLTYPES] = [
-    [0,0,0,0,0,0,0],
-    [0,0,0,1,1,1,0],
-    [0,0,0,0,1,1,1],
-    [0,1,0,0,0,1,1],
-    [0,1,1,0,0,0,1],
-    [0,1,1,1,0,0,1],
-    [0,0,1,1,1,1,0]
+    [0,0,0,0,0,0,0,0],
+    [0,0,0,1,1,1,1,0],
+    [0,0,0,0,1,1,1,1],
+    [0,1,0,0,0,1,1,1],
+    [0,1,1,0,0,0,1,1],
+    [0,1,1,1,0,0,0,1],
+    [0,1,1,1,1,0,0,1],
+    [0,0,1,1,1,1,1,0],
 ];
 
 fn map_table(cell_type: MapCellType, other_cell_type: MapCellType) -> usize {
@@ -74,9 +76,10 @@ impl MapCellType {
             MapCellType::Undeclared => "000000",
             MapCellType::Moutains => "AEC2B6",
             MapCellType::Forest => "609966",
-            MapCellType::HighMountains => "BDCDD6",
+            MapCellType::HighMountains => "FFFFFF",
             MapCellType::Plains => "BBD6B8",
-            MapCellType::DeepWater => "93BFCF",
+            MapCellType::Sand => "E7D4B5",
+            MapCellType::DeepWater => "134B70",
             MapCellType::Water => "6096B4",
         };
         Color::from(Srgba::hex(cell_color).unwrap_or_default())
@@ -224,6 +227,7 @@ fn check_conflicts(
     conflicts
 }
 
+#[allow(unused_assignments)]
 fn find_least_cell_conflict(
     map: &mut Map,
 ){
