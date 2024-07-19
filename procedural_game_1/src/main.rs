@@ -227,6 +227,7 @@ fn check_conflicts(
     conflicts
 }
 
+// TODO: refactor this function into background task call to prevent game freeze
 #[allow(unused_assignments)]
 fn find_least_cell_conflict(
     map: &mut Map,
