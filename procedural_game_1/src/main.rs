@@ -1,9 +1,7 @@
 // source: https://www.youtube.com/watch?v=gKNJKce1p8M
 
 use bevy::{
-    color::palettes::basic::*,
-    prelude::{Srgba, *},
-    sprite::MaterialMesh2dBundle
+    color::palettes::basic::*, log::LogPlugin, prelude::{Srgba, *}, sprite::MaterialMesh2dBundle
 };
 use rand::prelude::*;
 use std::collections::HashMap;
@@ -12,7 +10,11 @@ use strum::FromRepr;
 const CELLSIZE:i32 = 5;
 const ITERATION:i32 = 8;
 const NCELLSEARCHRANGE: usize = 3;
-const MAXMAPGENITERATION: i32 = 10;
+const MAPCELLTYPES:usize = 7;
+const MAXMAPGENITERATION: i32 = 100;
+const MAPWIDTH:i32 = 800;
+const MAPHEIGHT:i32 = 1000;
+
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, Copy)]
 struct Cell {
@@ -40,7 +42,7 @@ enum MapCellType {
     HighMountains
 }
 
-const MAPCELLCONFLICTTABLE: [[usize;7];7] = [
+const MAPCELLCONFLICTTABLE: [[usize;MAPCELLTYPES];MAPCELLTYPES] = [
     [0,0,0,0,0,0,0],
     [0,0,0,1,1,1,0],
     [0,0,0,0,1,1,1],
@@ -55,7 +57,7 @@ fn map_table(cell_type: MapCellType, other_cell_type: MapCellType) -> usize {
 }
 
 fn get_cell_num_type() -> i32 {
-    7
+    MAPCELLTYPES as i32
 }
 
 impl MapCellType {
@@ -92,13 +94,27 @@ struct Map {
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins.set(WindowPlugin{primary_window:Some(Window{title:"Procedural Test".into(), name:Some("proceduralapp".into()),resolution:(800.,1000.).into(),..default()}),..default()}))
+        .add_plugins(
+            DefaultPlugins.set(WindowPlugin{
+                               primary_window:Some(
+                                    Window{
+                                        title:"Procedural Test".into(),
+                                        name:Some("proceduralapp".into()),
+                                        resolution:(MAPWIDTH as f32,MAPHEIGHT as f32).into(),
+                                        ..default()
+                                    }),
+                                ..default()})
+                           .set(LogPlugin{
+                               filter:"info,wgpu_core=warn,wgpu_hal=warn,mygame=debug".into(),
+                               level: bevy::log::Level::DEBUG,..default()
+                            }))
         .add_systems(Startup, (
             setup,
             setup_map
         ).chain())
-        .add_systems(FixedUpdate, (
+        .add_systems(Update, (
             update_map.run_if(is_map_generated),
+            re_update_map
         ).chain())
         .insert_resource(Time::<Fixed>::from_seconds(0.5))
         .run();
@@ -107,7 +123,7 @@ fn main() {
 fn setup(
     world: &mut World
 ) {
-    let (width, height) = (800, 1000);
+    let (width, height) = (MAPWIDTH, MAPHEIGHT);
     let world_width = width / CELLSIZE;
     let world_height = height / CELLSIZE;
     let map = Map {
@@ -142,7 +158,10 @@ fn setup_map(
     map: Res<Map>,
 )
 {
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2dBundle {
+        transform: Transform::from_xyz(400.,500.,0.),
+        ..default()
+    });
     for (coord_hash, cell) in map.cells.iter() {
         let color = cell.value.color();
         commands.spawn((MaterialMesh2dBundle {
@@ -150,8 +169,8 @@ fn setup_map(
             material: materials.add(color),
             transform: Transform::from_xyz(
                 // Distribute shapes from -X_EXTENT/2 to +X_EXTENT/2.
-                (cell.x+CELLSIZE+ 1 as i32) as f32,
-                (cell.y+CELLSIZE+ 1 as i32) as f32,
+                (cell.x*CELLSIZE+ 10 as i32) as f32,
+                (cell.y*CELLSIZE+ 10 as i32) as f32,
                 0.0,
             ),
             ..default()
@@ -172,7 +191,7 @@ fn update_map(
         if let Some(material) = materials.get_mut(material_handle)
         {
             material.color = cell_color;
-            print!("update {cell_hash} color to {:?}\n", cell_color);
+            debug!("MAPGEN:: update {cell_hash} color to {:?}\n", cell_color);
         }
     }
     find_least_cell_conflict(&mut map);
@@ -191,7 +210,7 @@ fn check_conflicts(
     let mut conflicts = 0;
     let search_range = NCELLSEARCHRANGE as i32;
     for dx in -search_range..search_range {
-        for dy in (-search_range..search_range) {
+        for dy in -search_range..search_range {
             let tx = (dx + cell.x + map.width) % map.width;
             let ty = (dy + cell.y + map.height) % map.height;
             let cell_hash = hash_coord(tx, ty);
@@ -209,7 +228,7 @@ fn find_least_cell_conflict(
     map: &mut Map,
 ){
     if map.iteration >= MAXMAPGENITERATION {
-        print!("Map generation finished !\n");
+        info!("MAPGEN:: Map generation finished !\n");
         map.is_generated = true;
         return
     }
@@ -218,22 +237,26 @@ fn find_least_cell_conflict(
         let x = rand::thread_rng().gen_range(0..map.width);
         let y = rand::thread_rng().gen_range(0..map.height);
         let cell_hash = hash_coord(x, y);
-        print!("find least conflict for {cell_hash} ");
+        let tries = ITERATION;
+        debug!("MAPGEN:: find least conflict for {cell_hash} ");
+        
         if map.cells.contains_key(&cell_hash)
         {
-            let selected_cell = map.cells[&cell_hash];
+            let mut selected_cell = map.cells[&cell_hash];
             
-            let conflicts = check_conflicts(&selected_cell, &map);
+            let conflicts: i32 = check_conflicts(&selected_cell, &map) as i32;
+        
             if conflicts > 0 || selected_cell.value == MapCellType::Undeclared
             {
                 let mut best_type = MapCellType::Undeclared;
-                let mut least_conflicts = 100;
+                let mut least_conflicts: i32 = 100;
                 let mut temp_terrain = MapCellType::Undeclared;
-                let mut temp_conflicts = 0;
-                for _ in 0..ITERATION {
-                    let temp_terrain_num = 1 + rand::thread_rng().gen_range(0..(get_cell_num_type()-1));
+                let mut temp_conflicts: i32 = 0;
+                for _ in 0..tries {
+                    let temp_terrain_num = 1 + rand::thread_rng().gen_range(0..get_cell_num_type()-1);
                     temp_terrain = MapCellType::from_repr(temp_terrain_num as usize).unwrap_or_default();
-                    temp_conflicts = check_conflicts(&selected_cell, &map);
+                    selected_cell.value = temp_terrain;
+                    temp_conflicts = check_conflicts(&selected_cell, &map) as i32;
                     if temp_conflicts < least_conflicts 
                     {
                         best_type = temp_terrain;
@@ -244,9 +267,23 @@ fn find_least_cell_conflict(
                 {
                     target_cell.value = best_type
                 }
-                print!(":: found best type {:?}\n", selected_cell.value);
+                debug!(":: found best type {:?}\n", selected_cell.value);
             }
         }
     }
     map.iteration += 1;
+}
+
+fn re_update_map(
+    buttons: Res<ButtonInput<MouseButton>>,
+    mut map: ResMut<Map>
+) {
+    if buttons.just_pressed(MouseButton::Left) {
+        if map.is_generated
+        {
+            map.is_generated = false;
+            map.iteration = 0;
+            info!("MAPGEN:: Regenerating Map ...")
+        }
+    }
 }
