@@ -1,4 +1,5 @@
-// source: https://www.youtube.com/watch?v=gKNJKce1p8M
+// Map generation sample using Constraint Satisfaction Algorithm
+// follow instruction from source: https://www.youtube.com/watch?v=gKNJKce1p8M
 
 use bevy::{
     log::LogPlugin, prelude::{Srgba, *}, sprite::MaterialMesh2dBundle
@@ -291,6 +292,22 @@ fn re_update_map(
         {
             map.is_generated = false;
             map.iteration = 0;
+            map.cells = {
+                let mut _cells:HashMap<String, Cell> = HashMap::new();
+                // Map need a way to query current cell value from x,y
+                for x in 0..map.width {
+                    for y in 0..map.height {
+                        let cell = Cell {
+                            x:x,
+                            y:y,
+                            value:MapCellType::Undeclared,
+                        };
+                        let cell_hash = hash_coord(x, y);
+                        _cells.insert(cell_hash, cell);
+                    }
+                };
+                _cells
+            };
             info!("MAPGEN:: Regenerating Map ...")
         }
     }
