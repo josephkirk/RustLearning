@@ -1,27 +1,27 @@
 // source: https://www.youtube.com/watch?v=gKNJKce1p8M
 
 use bevy::{
-    ecs::system::{RunSystemOnce, SystemId},
-    prelude::{Srgba, *}
+    prelude::{Srgba, *},
+    sprite::MaterialMesh2dBundle
 };
 use rand::prelude::*;
 use std::collections::HashMap;
 use strum::FromRepr;
+
 const CELLSIZE:i32 = 5;
 const ITERATION:i32 = 8;
 const NCELLSEARCHRANGE: usize = 3;
-const NCELLNEIGHTBOR: usize = NCELLSEARCHRANGE*NCELLSEARCHRANGE;
+const MAXMAPGENITERATION: i32 = 10;
 
-#[derive(Component)]
-struct Callback(SystemId);
-
-#[derive(Component)]
+#[derive(Debug, Default, Clone, PartialEq, Eq, Copy)]
 struct Cell {
     x: i32,
     y: i32,
     value: MapCellType,
-    neightbors: [Entity;NCELLNEIGHTBOR]
 }
+
+#[derive(Component)]
+struct CellComponent (String);
 
 fn hash_coord(x:i32,y:i32) -> String {
     format!("{x}_{y}")
@@ -80,26 +80,26 @@ impl MapCellType {
     }
 }
 
-#[derive(Resource)]
-struct CurrentCell {
-    cell: Cell,
-    conflicts: usize
-};
-
 #[derive(Resource, Default, Clone)]
 struct Map {
     width: i32,
     height: i32,
-    cells: HashMap<String, Entity>
+    cells: HashMap<String, Cell>,
+    is_generated: bool,
+    iteration: i32
 }
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(WindowPlugin{primary_window:Some(Window{title:"Procedural Test".into(), name:Some("proceduralapp".into()),resolution:(800.,1000.).into(),..default()}),..default()}))
         .add_systems(Startup, (
             setup,
-            draw_map
+            setup_map
         ).chain())
+        .add_systems(FixedUpdate, (
+            update_map.run_if(is_map_generated),
+        ).chain())
+        .insert_resource(Time::<Fixed>::from_seconds(0.5))
         .run();
 }
 
@@ -113,107 +113,133 @@ fn setup(
         width: world_width,
         height: world_height,
         cells: {
-            let mut _cells:HashMap<String, Entity> = HashMap::new();
+            let mut _cells:HashMap<String, Cell> = HashMap::new();
             // Map need a way to query current cell value from x,y
-            for x in (1..world_width) {
-                for y in (1..world_height) {
+            for x in 0..world_width {
+                for y in 0..world_height {
                     let cell = Cell {
                         x:x,
                         y:y,
                         value:MapCellType::Undeclared,
-                        neightbors:[Entity::from_raw(0);NCELLNEIGHTBOR]
                     };
-                    let cell_entity = world.spawn(cell);
                     let cell_hash = hash_coord(x, y);
-                    _cells.insert(cell_hash, cell_entity.id());
+                    _cells.insert(cell_hash, cell);
                 }
             };
             _cells
-        }
+        },
+        ..default()
     };
     world.insert_resource(map);
-    world.run_system(find_neighbors_cell).expect("Error Finding NeightborsCell");
-
+    
 }
 
-fn draw_map()
-{
-
-}
-
-fn find_neighbors_cell(
-    mut query: Query<(&mut Cell)>,
+fn setup_map(
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<ColorMaterial>>,
     map: Res<Map>,
-) {
-    for (mut cell) in query.iter_mut() {
-        let x = cell.x;
-        let y = cell.y;
-        let search_range = NCELLSEARCHRANGE as i32;
-        let mut n_id = 0;
-        for dx in (-search_range..search_range) {
-            for dy in (-search_range..search_range) {
-                let tx = (dx + x + map.width) % map.width;
-                let ty = (dy + y + map.height) % map.height;
-                let cell_hash = hash_coord(tx, ty);
-                let cell_entity = map.cells[&cell_hash];
-                cell.neightbors[n_id] = cell_entity;
-                n_id += 1;
-            }
-        }
+)
+{
+    commands.spawn(Camera2dBundle::default());
+    for (coord_hash, cell) in map.cells.iter() {
+        let color = cell.value.color();
+        commands.spawn((MaterialMesh2dBundle {
+            mesh: meshes.add(Rectangle::from_size(Vec2::splat(CELLSIZE as f32))).into(),
+            material: materials.add(color),
+            transform: Transform::from_xyz(
+                // Distribute shapes from -X_EXTENT/2 to +X_EXTENT/2.
+                (cell.x+CELLSIZE as i32) as f32,
+                (cell.y+CELLSIZE as i32) as f32,
+                0.0,
+            ),
+            ..default()
+        }, CellComponent(coord_hash.into())));
     }
 }
 
+fn update_map(
+    mut materials: ResMut<Assets<ColorMaterial>>,
+    query: Query<(&CellComponent, &Handle<ColorMaterial>)>,
+    mut map: ResMut<Map>,
+) {
+    for(cell_component , material_handle) in query.iter() {
+        let cell = map.cells[&cell_component.0];
+        let cell_type = cell.value;
+        if let Some(material) = materials.get_mut(material_handle)
+        {
+            material.color = cell_type.color();
+        }
+    }
+    find_least_cell_conflict(&mut map);
+}
+
+fn is_map_generated(
+    map: Res<Map>
+)-> bool {
+    !map.is_generated
+}
+
+fn check_conflicts(
+    cell: &Cell,
+    map: &Map
+) -> usize {
+    let mut conflicts = 0;
+    let search_range = NCELLSEARCHRANGE as i32;
+    for dx in -search_range..search_range {
+        for dy in (-search_range..search_range) {
+            let tx = (dx + cell.x + map.width) % map.width;
+            let ty = (dy + cell.y + map.height) % map.height;
+            let cell_hash = hash_coord(tx, ty);
+            if map.cells.contains_key(&cell_hash)
+            {
+                let check_cell = map.cells[&cell_hash];
+                conflicts += cell.value.check_conflict(check_cell.value);
+            }
+        }
+    }
+    conflicts
+}
+
 fn find_least_cell_conflict(
-    world:&mut World
+    map: &mut Map,
 ){
-    let map = world.resource::<Map>();
-    let check_conflict_cell_system_id = world.register_system(check_conflict_cells);
-    for i in (0..map.cells.len())
+    if map.iteration >= MAXMAPGENITERATION {
+        print!("Map generation finished !\n");
+        map.is_generated = true;
+        return
+    }
+    for _ in 0..map.cells.len()
     {
         let x = rand::thread_rng().gen_range(0..map.width);
         let y = rand::thread_rng().gen_range(0..map.height);
         let cell_hash = hash_coord(x, y);
-        let cell_entity = map.cells[&cell_hash];
-        if let Ok(mut selected_cell) = world.query::<(&mut Cell)>().get_mut(cell_entity) {
-            world.insert_resource(CurrentCell{cell:*selected_cell, conflicts:0});
-            let check_cell= world.resource::<CurrentCell>();
+        print!("find least conflict for {cell_hash} ");
+        if map.cells.contains_key(&cell_hash)
+        {
+            let mut selected_cell = map.cells[&cell_hash];
             
-            world.run_system(check_conflict_cell_system_id).expect_err("Failed to check conflicts neightbor cells");
-            if check_cell.conflicts > 0 || check_cell.cell.value == MapCellType::Undeclared
+            let conflicts = check_conflicts(&selected_cell, &map);
+            if conflicts > 0 || selected_cell.value == MapCellType::Undeclared
             {
                 let mut best_type = MapCellType::Undeclared;
                 let mut least_conflicts = 100;
-                let (mut temp_terrain, mut temp_conflicts) = (MapCellType::Undeclared,0);
-                for j in (0..ITERATION) {
+                let mut temp_terrain = MapCellType::Undeclared;
+                let mut temp_conflicts = 0;
+                for _ in 0..ITERATION {
                     let temp_terrain_num = 1 + rand::thread_rng().gen_range(0..(get_cell_num_type()-1));
                     temp_terrain = MapCellType::from_repr(temp_terrain_num as usize).unwrap_or_default();
-                    world.run_system(check_conflict_cell_system_id).expect_err("Failed to check conflicts neightbor cells");
-                    temp_conflicts = check_cell.conflicts;
-                    if (temp_conflicts < least_conflicts) {
+                    temp_conflicts = check_conflicts(&selected_cell, &map);
+                    if temp_conflicts < least_conflicts 
+                    {
                         best_type = temp_terrain;
                         least_conflicts = temp_conflicts;
                     }
                 };
                 selected_cell.value = best_type;
+                print!(":: found best type {:?}\n", best_type);
             }
         }
     }
-}
-
-fn check_conflict_cells(
-    check_cell: Res<CurrentCell>,
-    query: Query<(&mut Cell)>) -> usize
-{
-    let mut conflicts = 0;
-    // let neightbors_cell_array: Result<[Entity; NCELLNEIGHTBOR], _> = selected_cell.neightbors.try_into();
-    
-    // let neightbor_cell_entities:  = neightbors_cell_array.unwrap_err();
-
-    if let Ok( neightbor_cells) = query.get_many(check_cell.cell.neightbors)
-    {
-        for neightbor_cell in neightbor_cells.iter() {
-            conflicts += check_cell.cell.value.check_conflict(neightbor_cell.value);
-        }
-    }
-    conflicts
+    map.iteration += 1;
 }
