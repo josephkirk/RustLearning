@@ -2,12 +2,13 @@
 // follow instruction from source: https://www.youtube.com/watch?v=gKNJKce1p8M
 
 use bevy::{
+    window::PrimaryWindow,
     ecs::system::SystemId,
     log::LogPlugin,
     math::I64Vec2,
     prelude::{Srgba, *},
     sprite::MaterialMesh2dBundle,
-    tasks::{block_on, futures_lite::future, AsyncComputeTaskPool, Task},
+    tasks::{block_on, futures_lite::future, AsyncComputeTaskPool, Task}
 };
 use rand::prelude::*;
 use std::collections::HashMap;
@@ -21,10 +22,16 @@ const MAPWIDTH: usize = 800;
 const MAPHEIGHT: usize = 1000;
 
 #[derive(Event, Default)]
-struct MapGenTaskFinished();
+struct MapChangedEvent;
 
 #[derive(Event, Default)]
 struct ShouldGenMapEvent();
+
+#[derive(Event,Default)]
+struct MapPaintEvent {
+    radius: i32,
+    cell_type: MapCellType
+}
 
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
 struct MapChunkResult {
@@ -133,6 +140,15 @@ enum ProcGameModeState {
     Painting,
 }
 
+/// We will store the world position of the mouse cursor here.
+#[derive(Resource, Default)]
+struct CursorWorldCoords(Vec2);
+
+#[derive(Resource, Default)]
+struct CursorMapCoords(I64Vec2);
+
+#[derive(Component)]
+struct MainCamera;
 
 fn main() {
     let mut app = App::new();
@@ -185,20 +201,24 @@ fn main() {
         .init_state::<ProcGameModeState>()
         .insert_resource(map)
         .insert_resource(map_gen_system)
+        .init_resource::<CursorMapCoords>()
+        .init_resource::<CursorWorldCoords>()
         .insert_resource(Time::<Fixed>::from_seconds(0.01));
 
     app
-        .add_event::<MapGenTaskFinished>()
-        .add_event::<ShouldGenMapEvent>();
+        .add_event::<MapChangedEvent>()
+        .add_event::<ShouldGenMapEvent>()
+        .add_event::<MapPaintEvent>();
     
     app
         .add_systems(Startup, (setup_map).chain())
         .add_systems(OnEnter(ProcGameModeState::Generating), (
             gen_map_chunk,
         ))
+        .add_systems(FixedUpdate, cursor_to_world_map)
         .add_systems(
             FixedUpdate,
-            (gen_map_receive, apply_map_cell_value, update_map_gen_status)
+            (handle_gen_map_event, handle_redraw_map_event, handle_update_map_status_event, handle_paint_map_events)
                 .in_set(ProcGameplaySet::EventReceiverSet),
         )
         .add_systems(
@@ -207,7 +227,7 @@ fn main() {
         )
         .add_systems(
             Update,
-            (input_regenerate_map).in_set(ProcGameplaySet::Gameplay),
+            (input_clear_map, input_paint_map).in_set(ProcGameplaySet::Gameplay),
         )
         .configure_sets(
             Update,
@@ -230,10 +250,10 @@ fn setup_map(
     mut materials: ResMut<Assets<ColorMaterial>>,
     map: Res<Map>,
 ) {
-    commands.spawn(Camera2dBundle {
+    commands.spawn((Camera2dBundle {
         transform: Transform::from_xyz(400., 500., 0.),
         ..default()
-    });
+    }, MainCamera));
     for (coord, cell_type) in map.cells.iter() {
         let color = cell_type.color();
         commands.spawn((
@@ -263,10 +283,10 @@ fn is_map_not_generated(map: Res<Map>) -> bool {
     map.gen_status != MapGenerationStatus::Generated
 }
 
-fn update_map_gen_status(
+fn handle_update_map_status_event(
     mut next_stage: ResMut<NextState<ProcGameModeState>>,
     mut gen_map_event: EventWriter<ShouldGenMapEvent>,
-    mut events: EventReader<MapGenTaskFinished>,
+    mut events: EventReader<MapChangedEvent>,
     mut map: ResMut<Map>,
 ) {
     for _ in events.read() {
@@ -312,7 +332,7 @@ fn check_conflicts(
     conflicts
 }
 
-fn gen_map_receive(
+fn handle_gen_map_event(
     mut commands: Commands,
     map_gen_system: Res<MapGenSystem>,
     mut events: EventReader<ShouldGenMapEvent>,
@@ -376,9 +396,9 @@ fn find_least_cell_conflict(map: &mut HashMap<I64Vec2, MapCellType>, map_size: I
     conflict_count
 }
 
-fn apply_map_cell_value(
+fn handle_redraw_map_event(
     map: ResMut<Map>,
-    mut events: EventReader<MapGenTaskFinished>,
+    mut events: EventReader<MapChangedEvent>,
     mut query: Query<(&mut CellComponent, &Handle<ColorMaterial>)>,
     mut color_materials: ResMut<Assets<ColorMaterial>>,
 ) {
@@ -404,7 +424,7 @@ fn apply_map_cell_value(
 fn poll_gen_map_tasks(
     mut commands: Commands,
     mut map: ResMut<Map>,
-    mut events: EventWriter<MapGenTaskFinished>,
+    mut events: EventWriter<MapChangedEvent>,
     mut tasks: Query<(Entity, &mut ComputeMapChunkTask)>,
 ) {
     tasks.iter_mut().for_each(|(entity, mut task)| {
@@ -417,12 +437,12 @@ fn poll_gen_map_tasks(
     })
 }
 
-fn input_regenerate_map(
+fn input_clear_map(
     mut next_state: ResMut<NextState<ProcGameModeState>>,
-    buttons: Res<ButtonInput<MouseButton>>,
+    buttons: Res<ButtonInput<KeyCode>>,
     mut map: ResMut<Map>,
 ) {
-    if buttons.just_released(MouseButton::Left) {
+    if buttons.just_pressed(KeyCode::KeyC) {
         if map.gen_status == MapGenerationStatus::Generated {
             map.gen_status = MapGenerationStatus::Init;
             map.iteration = 0;
@@ -440,5 +460,81 @@ fn input_regenerate_map(
             info!("MAPGEN:: Regenerating Map ...");
             next_state.set(ProcGameModeState::Generating);
         }
+    }
+}
+
+fn handle_paint_map_events(
+    mouse_coord: Res<CursorMapCoords>,
+    mut paint_events: EventReader<MapPaintEvent>,
+    mut map: ResMut<Map>,
+) {
+    for paint_event in paint_events.read() {
+        let center = mouse_coord.0;
+        
+        let radius = paint_event.radius;
+        let paint_cell_type = paint_event.cell_type;
+        for x in -radius..radius {
+            for y in -radius..radius {
+               
+                // if ((x as f32-(radius as f32*0.5)).powf(2.) + (y as f32-(radius as f32*0.5)).powf(2.)).sqrt() < radius as f32 {
+                    let map_x = center.x + x as i64;
+                    let map_y = center.y + y as i64;
+                    let map_coord = I64Vec2::new(map_x,map_y);
+                    map.cells.insert(map_coord, paint_cell_type);
+                // }
+            }
+        }
+    }
+}
+
+fn input_paint_map(
+    mut next_stage: ResMut<NextState<ProcGameModeState>>,
+    mut paint_events: EventWriter<MapPaintEvent>,
+    mut events: EventWriter<MapChangedEvent>,
+    input: Res<ButtonInput<MouseButton>>
+) {
+    if input.pressed(MouseButton::Left) {
+        let paint_radius = 10;
+        let cell_type = MapCellType::DeepWater;
+        paint_events.send(MapPaintEvent{
+            radius: paint_radius,
+            cell_type: cell_type,
+        });
+        events.send_default();
+        info!("Start paint map with {:?} with size {paint_radius}", cell_type);
+    }
+    if input.just_released(MouseButton::Left) {
+        next_stage.set(ProcGameModeState::Generating);
+        info!("Start refreshting map");
+    }
+}
+
+fn cursor_to_world_map(
+    mut cur_w_coords: ResMut<CursorWorldCoords>,
+    mut cur_m_coords: ResMut<CursorMapCoords>,
+    // query to get the window (so we can read the current cursor position)
+    q_window: Query<&Window, With<PrimaryWindow>>,
+    // query to get camera transform
+    q_camera: Query<(&Camera, &GlobalTransform), With<MainCamera>>,
+) {
+    // get the camera info and transform
+    // assuming there is exactly one main camera entity, so Query::single() is OK
+    let (camera, camera_transform) = q_camera.single();
+
+    // There is only one primary window, so we can similarly get it from the query:
+    let window = q_window.single();
+
+    // check if the cursor is inside the window and get its position
+    // then, ask bevy to convert into world coordinates, and truncate to discard Z
+    if let Some(world_position) = window.cursor_position()
+        .and_then(|cursor| camera.viewport_to_world(camera_transform, cursor))
+        .map(|ray| ray.origin.truncate())
+    {
+        cur_w_coords.0 = world_position;
+        cur_m_coords.0 = I64Vec2::new(
+            (world_position.x/ CELLSIZE as f32) as i64,
+            (world_position.y/ CELLSIZE as f32) as i64
+        );
+        debug!("World coords: {}/{} -- Map coords: {}/{}", world_position.x, world_position.y, cur_m_coords.0.x, cur_m_coords.0.y);
     }
 }
