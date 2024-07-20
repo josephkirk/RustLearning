@@ -197,12 +197,12 @@ fn main() {
             gen_map_chunk,
         ))
         .add_systems(
-            Update,
+            FixedUpdate,
             (gen_map_receive, apply_map_cell_value, update_map_gen_status)
                 .in_set(ProcGameplaySet::EventReceiverSet),
         )
         .add_systems(
-            Update,
+            FixedUpdate,
             (poll_gen_map_tasks,).in_set(ProcGameplaySet::MapGeneration),
         )
         .add_systems(
