@@ -264,6 +264,7 @@ fn is_map_not_generated(map: Res<Map>) -> bool {
 }
 
 fn update_map_gen_status(
+    mut next_stage: ResMut<NextState<ProcGameModeState>>,
     mut gen_map_event: EventWriter<ShouldGenMapEvent>,
     mut events: EventReader<MapGenTaskFinished>,
     mut map: ResMut<Map>,
@@ -283,6 +284,7 @@ fn update_map_gen_status(
                     "MAPGEN:: Map generation finished after {} iteration!\n",
                     map.iteration
                 );
+                next_stage.set(ProcGameModeState::Painting)
             }
         }
     }
