@@ -5,4 +5,3 @@ edition = "2021"
 
 [dependencies]
 bevy="0.14"
-bevy_vox_mesh="0.8"
