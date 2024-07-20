@@ -118,6 +118,12 @@ struct Map {
 #[derive(Resource)]
 struct MapGenSystem(SystemId);
 
+#[derive(Resource, Default)]
+struct MapPaintBrush{
+    radius: i32,
+    cell_type: MapCellType,
+}
+
 #[derive(Resource, Clone, Eq, PartialEq)]
 enum MapGenerationStatus {
     Init,
@@ -166,7 +172,7 @@ fn main() {
             // Map need a way to query current cell value from x,y
             for x in 0..world_width as i64 {
                 for y in 0..world_height as i64 {
-                    _cells.insert(I64Vec2::new(x, y), MapCellType::Undeclared);
+                    _cells.insert(I64Vec2::new(x, y), MapCellType::DeepWater);
                 }
             }
             _cells
@@ -177,6 +183,10 @@ fn main() {
     };
     let map_gen_system_id = app.register_system(gen_map_chunk);
     let map_gen_system = MapGenSystem(map_gen_system_id);
+    let map_base_brush = MapPaintBrush {
+        radius: 10,
+        cell_type: MapCellType::Moutains
+    };
 
     app
         .add_plugins(
@@ -201,6 +211,7 @@ fn main() {
         .init_state::<ProcGameModeState>()
         .insert_resource(map)
         .insert_resource(map_gen_system)
+        .insert_resource(map_base_brush)
         .init_resource::<CursorMapCoords>()
         .init_resource::<CursorWorldCoords>()
         .insert_resource(Time::<Fixed>::from_seconds(0.01));
@@ -227,7 +238,7 @@ fn main() {
         )
         .add_systems(
             Update,
-            (input_clear_map, input_paint_map).in_set(ProcGameplaySet::Gameplay),
+            (input_clear_map, input_paint_map, input_change_brush).in_set(ProcGameplaySet::Gameplay),
         )
         .configure_sets(
             Update,
@@ -437,6 +448,44 @@ fn poll_gen_map_tasks(
     })
 }
 
+fn input_change_brush(
+    buttons: Res<ButtonInput<KeyCode>>,
+    mut brush: ResMut<MapPaintBrush>
+) {
+    if buttons.just_pressed(KeyCode::Digit1) {
+        brush.cell_type = MapCellType::Undeclared;
+    }
+    if buttons.just_pressed(KeyCode::Digit2) {
+        brush.cell_type = MapCellType::DeepWater;
+    }
+    if buttons.just_pressed(KeyCode::Digit3) {
+        brush.cell_type = MapCellType::Water;
+    }
+    if buttons.just_pressed(KeyCode::Digit4) {
+        brush.cell_type = MapCellType::Sand;
+    }
+    if buttons.just_pressed(KeyCode::Digit5) {
+        brush.cell_type = MapCellType::Plains;
+    }
+    if buttons.just_pressed(KeyCode::Digit6) {
+        brush.cell_type = MapCellType::Forest;
+    }
+    if buttons.just_pressed(KeyCode::Digit7) {
+        brush.cell_type = MapCellType::Moutains;
+    }
+    if buttons.just_pressed(KeyCode::Digit8) {
+        brush.cell_type = MapCellType::HighMountains;
+    }
+    if buttons.just_pressed(KeyCode::KeyW) {
+        brush.radius += 1;
+        
+    }
+    if buttons.just_pressed(KeyCode::KeyS) {
+        brush.radius -= 1;
+    }
+    brush.radius = brush.radius.clamp(1, 15);
+}
+
 fn input_clear_map(
     mut next_state: ResMut<NextState<ProcGameModeState>>,
     buttons: Res<ButtonInput<KeyCode>>,
@@ -488,24 +537,23 @@ fn handle_paint_map_events(
 }
 
 fn input_paint_map(
+    brush: Res<MapPaintBrush>,
     mut next_stage: ResMut<NextState<ProcGameModeState>>,
     mut paint_events: EventWriter<MapPaintEvent>,
     mut events: EventWriter<MapChangedEvent>,
     input: Res<ButtonInput<MouseButton>>
 ) {
     if input.pressed(MouseButton::Left) {
-        let paint_radius = 10;
-        let cell_type = MapCellType::DeepWater;
         paint_events.send(MapPaintEvent{
-            radius: paint_radius,
-            cell_type: cell_type,
+            radius: brush.radius,
+            cell_type: brush.cell_type,
         });
         events.send_default();
-        info!("Start paint map with {:?} with size {paint_radius}", cell_type);
+        info!("Start painting map with {} with size {:?}", brush.radius, brush.cell_type);
     }
     if input.just_released(MouseButton::Left) {
         next_stage.set(ProcGameModeState::Generating);
-        info!("Start refreshting map");
+        info!("Start refreshing map");
     }
 }
 
