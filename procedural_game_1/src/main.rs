@@ -201,7 +201,7 @@ fn main() {
                 ..default()
             })
             .set(LogPlugin {
-                level: bevy::log::Level::INFO,
+                level: bevy::log::Level::WARN,
                 ..default()
             }),
         );
@@ -214,7 +214,7 @@ fn main() {
         .insert_resource(map_base_brush)
         .init_resource::<CursorMapCoords>()
         .init_resource::<CursorWorldCoords>()
-        .insert_resource(Time::<Fixed>::from_seconds(0.01));
+        .insert_resource(Time::<Fixed>::from_hz(240.0));
 
     app
         .add_event::<MapChangedEvent>()
@@ -226,14 +226,14 @@ fn main() {
         .add_systems(OnEnter(ProcGameModeState::Generating), (
             gen_map_chunk,
         ))
-        .add_systems(FixedUpdate, cursor_to_world_map)
+        .add_systems(Update, cursor_to_world_map)
         .add_systems(
-            FixedUpdate,
+            Update,
             (handle_gen_map_event, handle_redraw_map_event, handle_update_map_status_event, handle_paint_map_events)
                 .in_set(ProcGameplaySet::EventReceiverSet),
         )
         .add_systems(
-            FixedUpdate,
+            Update,
             (poll_gen_map_tasks,).in_set(ProcGameplaySet::MapGeneration),
         )
         .add_systems(
