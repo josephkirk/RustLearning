@@ -10,4 +10,11 @@ strum = { version = "0.26", features = ["derive"] }
 
 # Enable max optimizations for dependencies, but not for our code:
 [profile.dev.package."*"]
+opt-level = 1
+
+[profile.release]
+lto = true
 opt-level = 3
+codegen-units = 1
+incremental = false
+debug = false
