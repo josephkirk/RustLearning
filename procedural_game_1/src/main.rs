@@ -1,3 +1,4 @@
+#![cfg_attr(not(feature = "dev"), windows_subsystem = "windows")]
 // Map generation sample using Constraint Satisfaction Algorithm
 // follow instruction from source: https://www.youtube.com/watch?v=gKNJKce1p8M
 
@@ -8,17 +9,18 @@ use bevy::{
     math::I64Vec2,
     prelude::{Srgba, *},
     sprite::MaterialMesh2dBundle,
-    tasks::{block_on, futures_lite::future, AsyncComputeTaskPool, Task}
+    tasks::{block_on, futures_lite::future, AsyncComputeTaskPool, Task},
+    time::Stopwatch
 };
 use rand::prelude::*;
 use std::collections::HashMap;
 use strum::FromRepr;
 
-const CELLSIZE: usize = 5;
+const CELLSIZE: usize = 10;
 const ITERATION: i32 = 8;
 const NCELLSEARCHRANGE: usize = 3;
 const MAPCELLTYPES: usize = 8;
-const MAPWIDTH: usize = 800;
+const MAPWIDTH: usize = 1000;
 const MAPHEIGHT: usize = 1000;
 
 #[derive(Event, Default)]
@@ -156,6 +158,12 @@ struct CursorMapCoords(I64Vec2);
 #[derive(Component)]
 struct MainCamera;
 
+#[derive(Resource, Default)]
+struct MapGenStopwatch {
+    time: Stopwatch,
+}
+
+
 fn main() {
     let mut app = App::new();
     let app_title = "Procedural Map Test";
@@ -201,7 +209,7 @@ fn main() {
                 ..default()
             })
             .set(LogPlugin {
-                level: bevy::log::Level::WARN,
+                level: bevy::log::Level::INFO,
                 ..default()
             }),
         );
@@ -212,6 +220,7 @@ fn main() {
         .insert_resource(map)
         .insert_resource(map_gen_system)
         .insert_resource(map_base_brush)
+        .init_resource::<MapGenStopwatch>()
         .init_resource::<CursorMapCoords>()
         .init_resource::<CursorWorldCoords>()
         .insert_resource(Time::<Fixed>::from_hz(240.0));
@@ -224,7 +233,10 @@ fn main() {
     app
         .add_systems(Startup, (setup_map).chain())
         .add_systems(OnEnter(ProcGameModeState::Generating), (
-            gen_map_chunk,
+            gen_map_chunk, reset_map_gen_timer
+        ))
+        .add_systems(OnExit(ProcGameModeState::Generating), (
+            print_map_gen_time
         ))
         .add_systems(Update, cursor_to_world_map)
         .add_systems(
@@ -234,7 +246,7 @@ fn main() {
         )
         .add_systems(
             Update,
-            (poll_gen_map_tasks,).in_set(ProcGameplaySet::MapGeneration),
+            (poll_gen_map_tasks,update_map_gen_timer).in_set(ProcGameplaySet::MapGeneration),
         )
         .add_systems(
             Update,
@@ -262,7 +274,7 @@ fn setup_map(
     map: Res<Map>,
 ) {
     commands.spawn((Camera2dBundle {
-        transform: Transform::from_xyz(400., 500., 0.),
+        transform: Transform::from_xyz(MAPWIDTH as f32/2., MAPHEIGHT as f32/2., 0.),
         ..default()
     }, MainCamera));
     for (coord, cell_type) in map.cells.iter() {
@@ -351,6 +363,7 @@ fn handle_gen_map_event(
     for _ in events.read() {
         commands.run_system(map_gen_system.0)
     }
+    events.clear();
 }
 
 fn gen_map_chunk(mut commands: Commands, mut map: ResMut<Map>) {
@@ -407,6 +420,19 @@ fn find_least_cell_conflict(map: &mut HashMap<I64Vec2, MapCellType>, map_size: I
     conflict_count
 }
 
+fn mean_color(colors: &[Color]) -> Color {
+    let reds:Vec<f32>=colors.iter().map(|c| c.to_srgba().red).collect();
+    let greens:Vec<f32>=colors.iter().map(|c| c.to_srgba().green).collect();
+    let blues:Vec<f32>=colors.iter().map(|c| c.to_srgba().blue).collect();
+    let sum_red: f32 = reds.iter().sum();
+    let sum_green: f32 = greens.iter().sum();
+    let sum_blue: f32 = blues.iter().sum();
+    let mean_read = sum_red / colors.len() as f32;
+    let mean_green = sum_green / colors.len() as f32;
+    let mean_blue = sum_blue / colors.len() as f32;
+    Color::srgb(mean_read, mean_green, mean_blue)
+}
+
 fn handle_redraw_map_event(
     map: ResMut<Map>,
     mut events: EventReader<MapChangedEvent>,
@@ -417,15 +443,31 @@ fn handle_redraw_map_event(
         query
             .iter_mut()
             .for_each(|(mut cell_comp, material_handle)| {
-                if let Some(cell_type) = map.cells.get(&cell_comp.coord) {
+                let cell_coord = cell_comp.coord;
+                
+                if let Some(cell_type) = map.cells.get(&cell_coord) {
                     cell_comp.cell_type = *cell_type;
                 }
+                let cell_color = cell_comp.cell_type.color();
+                // let mut colors: Vec<Color> = Vec::new();
+                // for coord in [
+                //     I64Vec2::new(cell_coord.x -1, cell_coord.y),
+                //     I64Vec2::new(cell_coord.x + 1, cell_coord.y),
+                //     I64Vec2::new(cell_coord.x, cell_coord.y-1),
+                //     I64Vec2::new(cell_coord.x, cell_coord.y+1),
+                //     cell_coord
+                //     ] {
+                //     if let Some(cell_type) = map.cells.get(&coord) {
+                //         colors.push(cell_type.color());
+                //     }
+                // }
+                // let cell_color = mean_color(&colors);
                 if let Some(material) = color_materials.get_mut(material_handle) {
-                    material.color = cell_comp.cell_type.color();
+                    material.color = cell_color;
                     debug!(
                         "MAPGEN:: update {} color to {:?}\n",
                         &cell_comp.coord,
-                        cell_comp.cell_type.color()
+                        cell_color
                     );
                 }
             });
@@ -534,6 +576,25 @@ fn handle_paint_map_events(
             }
         }
     }
+}
+
+fn reset_map_gen_timer(
+    mut stopwatch: ResMut<MapGenStopwatch>
+) {
+    stopwatch.time.reset();
+}
+
+fn print_map_gen_time(
+    stopwatch: Res<MapGenStopwatch>
+) {
+    info!("Map gen finished after {} seconds!", stopwatch.time.elapsed_secs());
+}
+
+fn update_map_gen_timer(
+    time: Res<Time>,
+    mut stopwatch: ResMut<MapGenStopwatch>
+) {
+    stopwatch.time.tick(time.delta());
 }
 
 fn input_paint_map(

@@ -2,3 +2,4 @@
 **/*.rs.bk
 */image_resources
 */target/*
+/Build
